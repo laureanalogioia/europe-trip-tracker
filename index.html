@@ -313,6 +313,56 @@
     '2026-09-28': { loc: 'Kotor', flag: '🇲🇪' },
     '2026-09-29': { loc: 'Kotor', flag: '🇲🇪' },
     '2026-09-30': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-10-01': { loc: '→ Budva 🚌', travel: true, flag: '🇲🇪' },
+    '2026-10-02': { loc: 'Budva', flag: '🇲🇪' },
+    '2026-10-03': { loc: 'Budva', flag: '🇲🇪' },
+    '2026-10-04': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
+    '2026-10-05': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-10-06': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-10-07': { loc: '→ Sarajevo 🚌', travel: true, flag: '🇧🇦' },
+    '2026-10-08': { loc: 'Sarajevo', flag: '🇧🇦' },
+    '2026-10-09': { loc: 'Sarajevo', flag: '🇧🇦' },
+    '2026-10-10': { loc: '→ Tirana 🚌', travel: true, flag: '🇦🇱' },
+    '2026-10-11': { loc: 'Tirana', flag: '🇦🇱' },
+    '2026-10-12': { loc: '→ Sarandë 🚌', travel: true, flag: '🇦🇱' },
+    '2026-10-13': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-14': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-15': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-16': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-17': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-18': { loc: 'Sarandë', flag: '🇦🇱' },
+    '2026-10-19': { loc: '→ Corfu ⛴', travel: true, flag: '🇬🇷' },
+    '2026-10-20': { loc: 'Corfu', flag: '🇬🇷' },
+    '2026-10-21': { loc: 'Corfu', flag: '🇬🇷' },
+    '2026-10-22': { loc: 'Corfu', flag: '🇬🇷' },
+    '2026-10-23': { loc: '→ Athens ✈', travel: true, flag: '🇬🇷' },
+    '2026-10-24': { loc: 'Athens', flag: '🇬🇷' },
+    '2026-10-25': { loc: 'Athens', flag: '🇬🇷' },
+    '2026-10-26': { loc: 'Athens', flag: '🇬🇷' },
+    '2026-10-27': { loc: 'Athens', flag: '🇬🇷' },
+    '2026-10-28': { loc: 'Athens', flag: '🇬🇷' },
+    '2026-10-29': { loc: '→ Mykonos ⛴', travel: true, flag: '🇬🇷' },
+    '2026-10-30': { loc: 'Mykonos', flag: '🇬🇷' },
+    '2026-10-31': { loc: 'Mykonos', flag: '🇬🇷' },
+    '2026-11-01': { loc: '→ Paros ⛴', travel: true, flag: '🇬🇷' },
+    '2026-11-02': { loc: 'Paros', flag: '🇬🇷' },
+    '2026-11-03': { loc: 'Paros', flag: '🇬🇷' },
+    '2026-11-04': { loc: 'Paros', flag: '🇬🇷' },
+    '2026-11-05': { loc: '→ Naxos ⛴', travel: true, flag: '🇬🇷' },
+    '2026-11-06': { loc: 'Naxos', flag: '🇬🇷' },
+    '2026-11-07': { loc: 'Naxos', flag: '🇬🇷' },
+    '2026-11-08': { loc: 'Naxos', flag: '🇬🇷' },
+    '2026-11-09': { loc: '→ Santorini ⛴', travel: true, flag: '🇬🇷' },
+    '2026-11-10': { loc: 'Santorini ✨', flag: '🇬🇷' },
+    '2026-11-11': { loc: 'Santorini ✨', flag: '🇬🇷' },
+    '2026-11-12': { loc: '→ Athens ✈', travel: true, flag: '🇬🇷' },
+    '2026-11-13': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-14': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-15': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-16': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-17': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-18': { loc: 'Buffer', flag: '🇬🇷' },
+    '2026-11-19': { loc: '→ Home ✈', travel: true, flag: '🇦🇷' },
   };
 
   const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -379,9 +429,11 @@
       [{ y: 2026, m: 7, name: 'July 2026' }, { y: 2026, m: 8, name: 'August 2026' }].forEach(function(mo) { out += renderMonth(mo.y, mo.m, mo.name); });
       container.innerHTML = out;
     }
-    const container2 = document.getElementById('trip-calendar-sep');
+    const container2 = document.getElementById('trip-calendar-leg2');
     if (container2) {
-      container2.innerHTML = renderMonth(2026, 9, 'September 2026');
+      let out2 = '';
+      [{y:2026,m:9,name:'September 2026'},{y:2026,m:10,name:'October 2026'},{y:2026,m:11,name:'November 2026'}].forEach(function(mo){ out2 += renderMonth(mo.y, mo.m, mo.name); });
+      container2.innerHTML = out2;
     }
   });
 })();
@@ -621,54 +673,471 @@
 </div><!-- /tab-leg1 -->
 
 <div id="tab-leg2" style="display:none">
-<div class="leg">
-  <div class="leg-header">
-    <div>
-      <div class="leg-title">🌍 Southern Europe</div>
-      <div class="leg-sub">Sep 1 – Nov 19, 2026 &nbsp;·&nbsp; Switzerland → Italy → Slovenia → Croatia → Montenegro → Bosnia → Albania → Greece</div>
-    </div>
-    <div class="leg-badge">Checklist coming</div>
+
+<div class="progress-section">
+  <div class="progress-row">
+    <div class="progress-label">Leg 2 Booking Progress</div>
+    <div class="progress-counts" id="prog-counts-2">0 / 0 confirmed</div>
   </div>
-  <div class="leg2-grid">
-    <div class="leg2-city"><div class="leg2-city-name">🇨🇭 Geneva</div><div class="leg2-city-dates">Sep 1–3</div><div class="leg2-city-nights">2 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇨🇭 Interlaken</div><div class="leg2-city-dates">Sep 3–6</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇮🇹 Venice</div><div class="leg2-city-dates">Sep 6–9</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇸🇮 Lake Bled</div><div class="leg2-city-dates">Sep 9–12</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city float"><div class="leg2-city-name">🇸🇮 Ljubljana 🌿</div><div class="leg2-city-dates">Sep 12–16</div><div class="leg2-city-nights">4 nights · base</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Plitvice</div><div class="leg2-city-dates">Sep 16–18</div><div class="leg2-city-nights">2 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Split</div><div class="leg2-city-dates">Sep 18–21</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Dubrovnik</div><div class="leg2-city-dates">Sep 21–26</div><div class="leg2-city-nights">5 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇲🇪 Kotor</div><div class="leg2-city-dates">Sep 26–Oct 1</div><div class="leg2-city-nights">5 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇲🇪 Budva</div><div class="leg2-city-dates">Oct 1–4</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇧🇦 Mostar</div><div class="leg2-city-dates">Oct 4–7</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇧🇦 Sarajevo</div><div class="leg2-city-dates">Oct 7–10</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇦🇱 Tirana</div><div class="leg2-city-dates">Oct 10–12</div><div class="leg2-city-nights">2 nights</div></div>
-    <div class="leg2-city float"><div class="leg2-city-name">🇦🇱 Sarandë 🌿</div><div class="leg2-city-dates">Oct 12–19</div><div class="leg2-city-nights">7 nights · base</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Corfu</div><div class="leg2-city-dates">Oct 19–23</div><div class="leg2-city-nights">4 nights</div></div>
-    <div class="leg2-city float"><div class="leg2-city-name">🇬🇷 Athens 🌿</div><div class="leg2-city-dates">Oct 23–29</div><div class="leg2-city-nights">6 nights · base</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Mykonos</div><div class="leg2-city-dates">Oct 29–Nov 1</div><div class="leg2-city-nights">3 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Paros</div><div class="leg2-city-dates">Nov 1–5</div><div class="leg2-city-nights">4 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Naxos</div><div class="leg2-city-dates">Nov 5–9</div><div class="leg2-city-nights">4 nights</div></div>
-    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Santorini</div><div class="leg2-city-dates">Nov 9–12</div><div class="leg2-city-nights">3 nights ✨</div></div>
-    <div class="leg2-city" style="border-left:3px dashed #d1d5db;opacity:0.6"><div class="leg2-city-name">🗓 Buffer</div><div class="leg2-city-dates">Nov 12–19</div><div class="leg2-city-nights">7 nights free</div></div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-bar-2" style="width:0%"></div></div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val green" id="stat-confirmed-2">0</div><div class="stat-label">Confirmed</div></div>
+    <div class="stat"><div class="stat-val amber" id="stat-pending-2">0</div><div class="stat-label">Still pending</div></div>
+    <div class="stat"><div class="stat-val" id="stat-usd-spent-2">US$0</div><div class="stat-label">Paid so far</div><div id="stat-paid-sub-2" style="font-size:10px;color:#999;margin-top:3px;line-height:1.3"></div></div>
+    <div class="stat"><div class="stat-val" id="stat-cost-total-2">~US$TBD</div><div class="stat-label">Leg 2 total est.</div></div>
   </div>
+  <div style="height:1px;background:#f0f0f0;margin:4px 16px 0"></div>
+  <div class="spend-breakdown">
+    <div class="spend-cat" data-catkey2="flight-intl" onclick="toggleCatPanel2('flight-intl')"><span class="spend-cat-label">✈ Intl flight</span>&ensp;<span class="spend-cat-val" id="cat-flight-intl-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="flight-eu" onclick="toggleCatPanel2('flight-eu')"><span class="spend-cat-label">✈ EU flights</span>&ensp;<span class="spend-cat-val" id="cat-flight-eu-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="transport" onclick="toggleCatPanel2('transport')"><span class="spend-cat-label">🚂 Trains &amp; buses</span>&ensp;<span class="spend-cat-val" id="cat-transport-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="accommodation" onclick="toggleCatPanel2('accommodation')"><span class="spend-cat-label">🏨 Accommodation</span>&ensp;<span class="spend-cat-val" id="cat-accommodation-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="activity" onclick="toggleCatPanel2('activity')"><span class="spend-cat-label">🎭 Activities</span>&ensp;<span class="spend-cat-val" id="cat-activity-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="connectivity" onclick="toggleCatPanel2('connectivity')"><span class="spend-cat-label">📱 Connectivity</span>&ensp;<span class="spend-cat-val" id="cat-connectivity-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+  </div>
+  <div id="cat-detail-panel-2" style="display:none;margin:0 16px 6px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
+  <div style="padding:2px 16px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">By city</div>
+  <div class="spend-breakdown" id="city-chips-row-2"></div>
+  <div id="city-detail-panel-2" style="display:none;margin:0 16px 14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
 </div>
 
-<!-- SEPTEMBER CALENDAR -->
-<div class="leg" style="margin:16px 16px 0" id="sep-cal">
+<div class="todo-panel">
+<div class="todo-title">📋 Action items — Leg 2</div>
+<div class="todo-cols">
+  <div class="todo-col">
+    <div class="todo-col-head">📋 Sort out</div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>2 weeks off work:</strong> Request Aug 31 – Sep 13 off — not confirmed yet <span class="todo-badge tb-orange">pending</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Insurance Leg 2:</strong> Policy T034307709 expires Aug 28. Need cover Sep 1 – Nov 19 <span class="todo-badge tb-orange">83 days</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>BlaBlaCar voucher SGHQZA:</strong> €24.49 credit — use before Dec 31, 2026 <span class="todo-badge tb-orange">don't waste it</span></div>
+    </div>
+  </div>
+  <div class="todo-col">
+    <div class="todo-col-head">✈ Book transport</div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Flight London → Geneva:</strong> Depart Aug 28 · check easyJet, Vueling, BA, Swiss <span class="todo-badge tb-blue">book early</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Interrail / rail pass:</strong> Geneva → Interlaken → Venice · check interrail.eu <span class="todo-badge tb-blue">compare</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Ferry Sarandë → Corfu:</strong> Finikas Lines / Ionian Seaways · book 2–3 weeks ahead</div>
+    </div>
+  </div>
+  <div class="todo-col">
+    <div class="todo-col-head">🏨 Accommodation</div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Book hostels/stays city by city</strong> — Geneva, Interlaken, Venice, Lake Bled, Ljubljana, Plitvice, Split, Dubrovnik, Kotor, Budva, Mostar, Sarajevo, Tirana, Sarandë, Corfu, Athens, islands</div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Return flight home:</strong> Santorini/Athens → Buenos Aires · check Nov 12–19 options</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="leg" style="margin:16px 16px 0" id="trip-cal-leg2">
   <div class="leg-header">
     <div>
-      <div class="leg-title">📅 Trip Calendar — Sep 2026</div>
-      <div class="leg-sub">All bookings at a glance · Holidays flagged in gold</div>
+      <div class="leg-title">📅 Trip Calendar — Sep–Nov 2026</div>
+      <div class="leg-sub">All Leg 2 dates at a glance · Holidays flagged in gold</div>
     </div>
   </div>
   <div style="padding:10px 16px 4px;display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#555">
     <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fef3c7;border:1px solid #fcd34d;border-radius:2px;display:inline-block"></span>Holiday</span>
     <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;display:inline-block"></span>Travel day</span>
-    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fce7f3;border:1px solid #f9a8d4;border-radius:2px;display:inline-block"></span>Optional</span>
   </div>
-  <div id="trip-calendar-sep" style="padding:4px 16px 16px"></div>
+  <div id="trip-calendar-leg2" style="padding:4px 16px 16px"></div>
 </div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot cat-flight"></div> Flight</div>
+  <div class="legend-item"><div class="legend-dot cat-transport"></div> Train/Bus/Ferry</div>
+  <div class="legend-item"><div class="legend-dot cat-accommodation"></div> Accommodation</div>
+  <div class="legend-item"><div class="legend-dot cat-activity"></div> Activity</div>
+</div>
+
+<div class="leg" id="leg2-bookings">
+  <div class="leg-header">
+    <div>
+      <div class="leg-title">🌍 Southern Europe</div>
+      <div class="leg-sub">Aug 28 – Nov 19, 2026 &nbsp;·&nbsp; Switzerland → Italy → Slovenia → Croatia → Montenegro → Bosnia → Albania → Greece</div>
+    </div>
+    <div class="leg-badge" id="leg2-badge">0 / 0</div>
+  </div>
+
+  <!-- GENEVA -->
+  <div class="stop-group">
+    <div class="stop-label">🇨🇭 Geneva — Sep 1–3 (2 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-flight"></div>
+      <div style="flex:1"><div class="booking-name">Flight London → Geneva — Aug 28</div><div class="booking-detail">not yet booked · check easyJet, Vueling, BA, Swiss</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-1" data-cost="0" data-cat="flight-eu" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Geneva (Sep 1–3)</div><div class="booking-detail">2 nights · not yet booked · Booking.com / Hostelworld</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-2" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- INTERLAKEN -->
+  <div class="stop-group">
+    <div class="stop-label">🇨🇭 Interlaken — Sep 3–6 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Train Geneva → Interlaken</div><div class="booking-detail">Sep 3 · not yet booked · SBB Swiss Rail · ~2h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-3" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Interlaken (Sep 3–6)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-4" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- VENICE -->
+  <div class="stop-group">
+    <div class="stop-label">🇮🇹 Venice — Sep 6–9 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Train Interlaken → Venice</div><div class="booking-detail">Sep 6 · not yet booked · SBB/Trenitalia · ~5h via Milan</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-5" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Venice (Sep 6–9)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-6" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- LAKE BLED -->
+  <div class="stop-group">
+    <div class="stop-label">🇸🇮 Lake Bled — Sep 9–12 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus/Train Venice → Lake Bled</div><div class="booking-detail">Sep 9 · not yet booked · FlixBus / Omio · ~3–4h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-7" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Lake Bled (Sep 9–12)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-8" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- LJUBLJANA -->
+  <div class="stop-group">
+    <div class="stop-label">🇸🇮 Ljubljana — Sep 12–16 (4 nights · BASE 🌿)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Lake Bled → Ljubljana</div><div class="booking-detail">Sep 12 · not yet booked · local bus · ~1.5h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-9" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Ljubljana (Sep 12–16)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-10" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- PLITVICE -->
+  <div class="stop-group">
+    <div class="stop-label">🇭🇷 Plitvice — Sep 16–18 (2 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Ljubljana → Plitvice</div><div class="booking-detail">Sep 16 · not yet booked · direct bus · ~2.5h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-11" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Plitvice (Sep 16–18)</div><div class="booking-detail">2 nights · not yet booked · guesthouses near park entrance</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-12" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Plitvice Lakes National Park — Entry Ticket</div><div class="booking-detail">book online in advance · np-plitvicka-jezera.hr</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Wishlist</span>
+      <button class="status-btn s-pending" data-id="l2-13" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- SPLIT -->
+  <div class="stop-group">
+    <div class="stop-label">🇭🇷 Split — Sep 18–21 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Plitvice → Split</div><div class="booking-detail">Sep 18 · not yet booked · direct bus · ~4h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-14" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Split (Sep 18–21)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-15" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- DUBROVNIK -->
+  <div class="stop-group">
+    <div class="stop-label">🇭🇷 Dubrovnik — Sep 21–26 (5 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Split → Dubrovnik</div><div class="booking-detail">Sep 21 · not yet booked · Croatia Bus / FlixBus · ~4h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-16" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Dubrovnik (Sep 21–26)</div><div class="booking-detail">5 nights · not yet booked · book early, Dubrovnik is expensive</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-17" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- KOTOR -->
+  <div class="stop-group">
+    <div class="stop-label">🇲🇪 Kotor — Sep 26–Oct 1 (5 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Dubrovnik → Kotor</div><div class="booking-detail">Sep 26 · not yet booked · direct bus · ~2h · crosses into Montenegro</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-18" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Kotor (Sep 26–Oct 1)</div><div class="booking-detail">5 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-19" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- BUDVA -->
+  <div class="stop-group">
+    <div class="stop-label">🇲🇪 Budva — Oct 1–4 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Kotor → Budva</div><div class="booking-detail">Oct 1 · not yet booked · local bus · ~30 min</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-20" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Budva (Oct 1–4)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-21" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- MOSTAR -->
+  <div class="stop-group">
+    <div class="stop-label">🇧🇦 Mostar — Oct 4–7 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Budva → Mostar</div><div class="booking-detail">Oct 4 · not yet booked · ~4–5h via Trebinje · check FlixBus</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-22" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Mostar (Oct 4–7)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-23" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- SARAJEVO -->
+  <div class="stop-group">
+    <div class="stop-label">🇧🇦 Sarajevo — Oct 7–10 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Mostar → Sarajevo</div><div class="booking-detail">Oct 7 · not yet booked · direct bus · ~2.5h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-24" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Sarajevo (Oct 7–10)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-25" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- TIRANA -->
+  <div class="stop-group">
+    <div class="stop-label">🇦🇱 Tirana — Oct 10–12 (2 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Sarajevo → Tirana</div><div class="booking-detail">Oct 10 · not yet booked · ~7h · check FlixBus</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-26" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Tirana (Oct 10–12)</div><div class="booking-detail">2 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-27" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- SARANDË -->
+  <div class="stop-group">
+    <div class="stop-label">🇦🇱 Sarandë — Oct 12–19 (7 nights · BASE 🌿)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Tirana → Sarandë</div><div class="booking-detail">Oct 12 · not yet booked · ~4h via Fier</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-28" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Sarandë (Oct 12–19)</div><div class="booking-detail">7 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-29" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- CORFU -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Corfu — Oct 19–23 (4 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry Sarandë → Corfu ⛴</div><div class="booking-detail">Oct 19 · not yet booked · Finikas Lines / Ionian Seaways · ~35 min · book ahead</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-30" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Corfu (Oct 19–23)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-31" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- ATHENS -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Athens — Oct 23–29 (6 nights · BASE 🌿)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry or Flight Corfu → Athens</div><div class="booking-detail">Oct 23 · not yet booked · ferry ~8h or cheap domestic flight ~1h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-32" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Athens (Oct 23–29)</div><div class="booking-detail">6 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-33" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- MYKONOS -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Mykonos — Oct 29–Nov 1 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry Athens (Piraeus) → Mykonos ⛴</div><div class="booking-detail">Oct 29 · not yet booked · SeaJets / Golden Star · ~2.5–5h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-34" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Mykonos (Oct 29–Nov 1)</div><div class="booking-detail">3 nights · not yet booked · check what's still open in late Oct</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-35" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- PAROS -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Paros — Nov 1–5 (4 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry Mykonos → Paros ⛴</div><div class="booking-detail">Nov 1 · not yet booked · ~1h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-36" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Paros (Nov 1–5)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-37" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- NAXOS -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Naxos — Nov 5–9 (4 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry Paros → Naxos ⛴</div><div class="booking-detail">Nov 5 · not yet booked · ~30 min</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-38" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Naxos (Nov 5–9)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-39" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- SANTORINI -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇷 Santorini — Nov 9–12 (3 nights ✨)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ferry Naxos → Santorini ⛴</div><div class="booking-detail">Nov 9 · not yet booked · ~2h</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-40" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Santorini (Nov 9–12)</div><div class="booking-detail">3 nights · not yet booked · the finale — treat yourself ✨</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-41" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="stop-group">
+    <div class="stop-label">🏠 Buffer / Home — Nov 12–19</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-flight"></div>
+      <div style="flex:1"><div class="booking-name">Return Flight Santorini/Athens → Buenos Aires</div><div class="booking-detail">Nov 12–19 · not yet booked · check return flight options</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-42" data-cost="0" data-cat="flight-intl" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+</div><!-- /leg2-bookings -->
+
 </div><!-- /tab-leg2 -->
 
 <div id="tab-weather" style="display:none">
@@ -1154,7 +1623,7 @@
 </div>
 </div><!-- /tab-wc -->
 
-<div class="footer">Last updated: Jun 21, 2026</div>
+<div class="footer">Last updated: Jun 24, 2026</div>
 
 <script>
   // Global state
@@ -1170,7 +1639,7 @@
   }
 
   function updateStats() {
-    const allBtns = document.querySelectorAll('.status-btn');
+    const allBtns = document.querySelectorAll('#tab-leg1 .status-btn');
     let confirmed = 0, pending = 0, usdSpent = 0;
     const cats = { 'flight-intl': 0, 'flight-eu': 0, transport: 0, accommodation: 0, activity: 0, connectivity: 0 };
     const catItems = { 'flight-intl': [], 'flight-eu': [], transport: [], accommodation: [], activity: [], connectivity: [] };
@@ -1346,7 +1815,181 @@
     panel.style.display = '';
   }
 
+
+  // ============ LEG 2 FUNCTIONS ============
+  let catItemsData2 = {};
+  let activeCatPanel2 = null;
+  let cityDataCache2 = [];
+  let activeCityPanel2 = null;
+
+  function toggleStatus2(btn) {
+    const current = btn.classList.contains('s-pending') ? 'pending' : btn.classList.contains('s-confirmed') ? 'confirmed' : 'na';
+    if (current === 'na') return;
+    if (current === 'pending') { btn.className = 'status-btn s-confirmed'; btn.textContent = 'Confirmed ✓'; }
+    else { btn.className = 'status-btn s-pending'; btn.textContent = 'Pending'; }
+    updateStats2();
+  }
+
+  function updateStats2() {
+    const allBtns = document.querySelectorAll('#leg2-bookings .status-btn');
+    let confirmed = 0, pending = 0, usdSpent = 0;
+    const cats = { 'flight-intl': 0, 'flight-eu': 0, transport: 0, accommodation: 0, activity: 0, connectivity: 0 };
+    const catItems = { 'flight-intl': [], 'flight-eu': [], transport: [], accommodation: [], activity: [], connectivity: [] };
+
+    allBtns.forEach(btn => {
+      const cost = parseFloat(btn.dataset.cost) || 0;
+      const cat = btn.dataset.cat || '';
+      const row = btn.closest('.booking-row');
+      const name = row ? (row.querySelector('.booking-name') || {}).textContent || '' : '';
+      if (btn.classList.contains('s-confirmed')) {
+        confirmed++;
+        usdSpent += parseFloat(btn.dataset.usd) || 0;
+        if (cats[cat] !== undefined) cats[cat] += cost;
+        if (catItems[cat]) catItems[cat].push({ name: name.trim(), cost });
+      } else if (btn.classList.contains('s-pending')) { pending++; }
+    });
+
+    catItemsData2 = catItems;
+
+    const total = confirmed + pending;
+    const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0;
+    const pb2 = document.getElementById('prog-bar-2');
+    if (pb2) pb2.style.width = pct + '%';
+    const pc2 = document.getElementById('prog-counts-2');
+    if (pc2) pc2.textContent = confirmed + ' / ' + total + ' confirmed';
+    const sc2 = document.getElementById('stat-confirmed-2');
+    if (sc2) sc2.textContent = confirmed;
+    const sp2 = document.getElementById('stat-pending-2');
+    if (sp2) sp2.textContent = pending;
+    const su2 = document.getElementById('stat-usd-spent-2');
+    if (su2) su2.textContent = 'US$' + usdSpent.toFixed(0);
+    const lb2 = document.getElementById('leg2-badge');
+    if (lb2) lb2.textContent = confirmed + ' / ' + total;
+
+    const fmt = v => 'US$' + v.toFixed(0);
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setEl('cat-flight-intl-2', fmt(cats['flight-intl']));
+    setEl('cat-flight-eu-2', fmt(cats['flight-eu']));
+    setEl('cat-transport-2', fmt(cats.transport));
+    setEl('cat-accommodation-2', fmt(cats.accommodation));
+    setEl('cat-activity-2', fmt(cats.activity));
+    setEl('cat-connectivity-2', fmt(cats.connectivity));
+
+    if (activeCatPanel2) _renderCatPanel2(activeCatPanel2);
+    buildCityChips2();
+  }
+
+  function toggleCatPanel2(catKey) {
+    if (activeCatPanel2 === catKey) { closeCatPanel2(); return; }
+    activeCatPanel2 = catKey;
+    _renderCatPanel2(catKey);
+    document.querySelectorAll('[data-catkey2]').forEach(c => {
+      c.classList.toggle('active', c.dataset.catkey2 === catKey);
+    });
+  }
+
+  function closeCatPanel2() {
+    activeCatPanel2 = null;
+    const p = document.getElementById('cat-detail-panel-2');
+    if (p) p.style.display = 'none';
+    document.querySelectorAll('[data-catkey2]').forEach(c => c.classList.remove('active'));
+  }
+
+  function _renderCatPanel2(catKey) {
+    const panel = document.getElementById('cat-detail-panel-2');
+    if (!panel) return;
+    const items = catItemsData2[catKey] || [];
+    let html = '<div class="cat-ph"><span>' + (catLabels[catKey] || catKey) + '</span><button onclick="closeCatPanel2()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#6b7280;padding:0">✕</button></div>';
+    if (!items.length) {
+      html += '<div style="padding:10px 12px;font-size:12px;color:#9ca3af">No confirmed items in this category yet.</div>';
+    } else {
+      items.forEach(item => {
+        if (!item.name) return;
+        html += '<div class="cat-pi"><span class="cat-pn">' + item.name + '</span><span class="cat-pc">US$' + item.cost.toFixed(0) + '</span></div>';
+      });
+      const total = items.reduce((s, i) => s + i.cost, 0);
+      html += '<div class="cat-pt">Total confirmed: US$' + total.toFixed(0) + '</div>';
+    }
+    panel.innerHTML = html;
+    panel.style.display = '';
+  }
+
+  function buildCityChips2() {
+    const rows = [];
+    document.querySelectorAll('#leg2-bookings .stop-group').forEach(function(group) {
+      const labelEl = group.querySelector('.stop-label');
+      if (!labelEl) return;
+      const labelText = labelEl.textContent.trim();
+      const nightsMatch = labelText.match(/(\d+)\s+night/);
+      const nights = nightsMatch ? parseInt(nightsMatch[1]) : 0;
+      if (nights === 0) return;
+      let groupTotal = 0, hasConf = false;
+      const items = [];
+      group.querySelectorAll('.status-btn').forEach(function(btn) {
+        if (btn.classList.contains('s-confirmed')) {
+          const cost = parseFloat(btn.dataset.cost) || 0;
+          groupTotal += cost;
+          hasConf = true;
+          const row = btn.closest('.booking-row');
+          const name = row ? (row.querySelector('.booking-name') || {}).textContent || '' : '';
+          items.push({ name: name.trim(), cost });
+        }
+      });
+      if (hasConf) rows.push({ label: labelText, nights, total: groupTotal, items });
+    });
+    cityDataCache2 = rows;
+
+    const container = document.getElementById('city-chips-row-2');
+    if (!container) return;
+    let html = '';
+    rows.forEach(function(row, idx) {
+      const cityMatch = row.label.match(/^(.+?)\s+—/);
+      const shortLabel = cityMatch ? cityMatch[1].trim() : row.label;
+      html += '<div class="spend-cat" data-cityidx2="' + idx + '" onclick="toggleCityPanel2(' + idx + ')">'
+            + '<span class="spend-cat-label">' + shortLabel + '</span>&ensp;<span class="spend-cat-val">US$' + row.total.toFixed(0) + '</span>'
+            + ' <span class="spend-cat-arrow">▾</span></div>';
+    });
+    container.innerHTML = html;
+    if (activeCityPanel2 !== null) {
+      const chip = container.querySelector('[data-cityidx2="' + activeCityPanel2 + '"]');
+      if (chip) chip.classList.add('active');
+    }
+  }
+
+  function toggleCityPanel2(idx) {
+    if (activeCityPanel2 === idx) { closeCityPanel2(); return; }
+    activeCityPanel2 = idx;
+    _renderCityPanel2(idx);
+    document.querySelectorAll('#city-chips-row-2 .spend-cat').forEach(function(c) {
+      c.classList.toggle('active', parseInt(c.dataset.cityidx2) === idx);
+    });
+  }
+
+  function closeCityPanel2() {
+    activeCityPanel2 = null;
+    const p = document.getElementById('city-detail-panel-2');
+    if (p) p.style.display = 'none';
+    document.querySelectorAll('#city-chips-row-2 .spend-cat').forEach(function(c) { c.classList.remove('active'); });
+  }
+
+  function _renderCityPanel2(idx) {
+    const panel = document.getElementById('city-detail-panel-2');
+    if (!panel) return;
+    const row = cityDataCache2[idx];
+    if (!row) return;
+    const perNight = 'US$' + Math.round(row.total/row.nights) + '/night · ' + row.nights + ' nights';
+    let html = '<div class="cat-ph"><span>' + row.label + '</span><button onclick="closeCityPanel2()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#6b7280;padding:0">✕</button></div>';
+    row.items.forEach(function(item) {
+      if (!item.name) return;
+      html += '<div class="cat-pi"><span class="cat-pn">' + item.name + '</span><span class="cat-pc">US$' + item.cost.toFixed(0) + '</span></div>';
+    });
+    html += '<div class="cat-pt">US$' + row.total.toFixed(0) + ' total · ' + perNight + '</div>';
+    panel.innerHTML = html;
+    panel.style.display = '';
+  }
+
   updateStats();
+  updateStats2();
 
   function showTab(tab) {
     document.getElementById('tab-leg1').style.display = tab === 'leg1' ? '' : 'none';
