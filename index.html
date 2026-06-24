@@ -120,6 +120,7 @@
     <div class="meta-item">🗓 <span>56 nights</span></div>
     <div class="meta-item">🌍 <span>8 countries</span></div>
     <div class="meta-item">📍 <span>9 cities</span></div>
+    <div class="meta-item">🛂 <span>25 Schengen days</span></div>
     <div class="meta-item">📅 <span>Jul 2 – Aug 27, 2026</span></div>
   </div>
 </div>
@@ -378,7 +379,8 @@
 
   function pad(n) { return n < 10 ? '0'+n : n; }
 
-  function renderMonth(y, m, name) {
+  function renderMonth(y, m, name, fromDay) {
+    fromDay = fromDay || 1;
     const firstDay = new Date(y, m-1, 1);
     const daysInMonth = new Date(y, m, 0).getDate();
     let startDow = firstDay.getDay();
@@ -392,11 +394,13 @@
       h += '<div style="text-align:center;font-size:9px;font-weight:600;color:#9ca3af;padding:2px 0;font-size:clamp(7px,1.8vw,9px)">' + d + '</div>';
     });
 
-    for (let i = 0; i < startDow; i++) {
+    // Blank cells: leading empty days + days before fromDay
+    const blanksBefore = startDow + (fromDay - 1);
+    for (let i = 0; i < blanksBefore; i++) {
       h += '<div class="cal-cell" style="background:#fafafa"></div>';
     }
 
-    for (let d = 1; d <= daysInMonth; d++) {
+    for (let d = fromDay; d <= daysInMonth; d++) {
       const key = y + '-' + pad(m) + '-' + pad(d);
       const e = ev[key] || {};
       let bg = '#fff', border = '1px solid #f0f0f0', badgeHtml = '';
@@ -441,7 +445,7 @@
     const container2 = document.getElementById('trip-calendar-leg2');
     if (container2) {
       let out2 = '';
-      [{y:2026,m:8,name:'August 2026'},{y:2026,m:9,name:'September 2026'},{y:2026,m:10,name:'October 2026'},{y:2026,m:11,name:'November 2026'}].forEach(function(mo){ out2 += renderMonth(mo.y, mo.m, mo.name); });
+      [{y:2026,m:8,name:'August 2026',from:28},{y:2026,m:9,name:'September 2026'},{y:2026,m:10,name:'October 2026'},{y:2026,m:11,name:'November 2026'}].forEach(function(mo){ out2 += renderMonth(mo.y, mo.m, mo.name, mo.from); });
       container2.innerHTML = out2;
     }
   });
@@ -1939,11 +1943,11 @@
   const headerData = {
     leg1: {
       subtitle: 'Sweden &nbsp;·&nbsp; Norway &nbsp;·&nbsp; Denmark &nbsp;·&nbsp; Germany &nbsp;·&nbsp; Netherlands &nbsp;·&nbsp; France &nbsp;·&nbsp; UK &nbsp;·&nbsp; Ireland',
-      nights: '56 nights', countries: '8 countries', cities: '9 cities', dates: 'Jul 2 – Aug 27, 2026'
+      nights: '56 nights', countries: '8 countries', cities: '9 cities', schengen: '25 Schengen days', dates: 'Jul 2 – Aug 27, 2026'
     },
     leg2: {
       subtitle: 'Switzerland &nbsp;·&nbsp; Italy &nbsp;·&nbsp; Slovenia &nbsp;·&nbsp; Croatia &nbsp;·&nbsp; Bosnia &nbsp;·&nbsp; Montenegro &nbsp;·&nbsp; Albania &nbsp;·&nbsp; Greece',
-      nights: '68 nights', countries: '8 countries', cities: '15 cities', dates: 'Aug 28 – Nov 4, 2026'
+      nights: '68 nights', countries: '8 countries', cities: '15 cities', schengen: '50 Schengen days', dates: 'Aug 28 – Nov 4, 2026'
     }
   };
   function updateHeader(tab) {
@@ -1954,6 +1958,7 @@
       '<div class="meta-item">🗓 <span>' + d.nights + '</span></div>' +
       '<div class="meta-item">🌍 <span>' + d.countries + '</span></div>' +
       '<div class="meta-item">📍 <span>' + d.cities + '</span></div>' +
+      '<div class="meta-item">🛂 <span>' + d.schengen + '</span></div>' +
       '<div class="meta-item">📅 <span>' + d.dates + '</span></div>';
   }
   function showTab(tab) {
