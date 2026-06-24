@@ -81,6 +81,7 @@
   .cal-dep { font-size: 7.5px; color: #1d4ed8; line-height: 1.3; margin-top: 1px; font-weight: 700; }
   .cal-note { font-size: 7.5px; color: #6b7280; line-height: 1.3; margin-top: 1px; font-style: italic; }
   .cal-badge { font-size: 8px; background: #f59e0b; color: #fff; border-radius: 2px; padding: 1px 3px; margin-top: 2px; display: inline-block; line-height: 1.4; }
+  .cal-badge-vac { font-size: 8px; background: #d1fae5; color: #065f46; border-radius: 2px; padding: 1px 3px; margin-top: 2px; display: inline-block; line-height: 1.4; }
   .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 12px 24px 8px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -289,23 +290,23 @@
     '2026-08-25': { loc: 'Woodbridge', flag: '🇬🇧' },
     '2026-08-26': { loc: 'Woodbridge', flag: '🇬🇧' },
     '2026-08-27': { loc: 'Woodbridge', flag: '🇬🇧' },
-    '2026-08-28': { loc: '→ Geneva ✈', travel: true, holiday: true, flag: '🇨🇭' },
-    '2026-08-29': { loc: 'Geneva', flag: '🇨🇭' },
-    '2026-08-30': { loc: '→ Interlaken 🚂', travel: true, flag: '🇨🇭' },
-    '2026-08-31': { loc: 'Interlaken', flag: '🇨🇭' },
-    '2026-09-01': { loc: 'Interlaken', flag: '🇨🇭' },
-    '2026-09-02': { loc: 'Interlaken', flag: '🇨🇭' },
-    '2026-09-03': { loc: '→ Venice 🚂', travel: true, flag: '🇮🇹' },
-    '2026-09-04': { loc: 'Venice', flag: '🇮🇹' },
-    '2026-09-05': { loc: '→ Ljubljana 🚌', travel: true, flag: '🇸🇮' },
-    '2026-09-06': { loc: 'Ljubljana', flag: '🇸🇮' },
-    '2026-09-07': { loc: 'Ljubljana (day trip → Bled)', flag: '🇸🇮' },
-    '2026-09-08': { loc: 'Ljubljana', flag: '🇸🇮' },
-    '2026-09-09': { loc: '→ Split 🚌', travel: true, flag: '🇭🇷' },
-    '2026-09-10': { loc: 'Split', flag: '🇭🇷' },
-    '2026-09-11': { loc: 'Split (day trip → Plitvice)', flag: '🇭🇷' },
-    '2026-09-12': { loc: 'Split', flag: '🇭🇷' },
-    '2026-09-13': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
+    '2026-08-28': { loc: '→ Geneva ✈', travel: true, holiday: true, flag: '🇨🇭', vacation: true },
+    '2026-08-29': { loc: 'Geneva', flag: '🇨🇭', vacation: true },
+    '2026-08-30': { loc: '→ Interlaken 🚂', travel: true, flag: '🇨🇭', vacation: true },
+    '2026-08-31': { loc: 'Interlaken', flag: '🇨🇭', vacation: true },
+    '2026-09-01': { loc: 'Interlaken', flag: '🇨🇭', vacation: true },
+    '2026-09-02': { loc: 'Interlaken', flag: '🇨🇭', vacation: true },
+    '2026-09-03': { loc: '→ Venice 🚂', travel: true, flag: '🇮🇹', vacation: true },
+    '2026-09-04': { loc: 'Venice', flag: '🇮🇹', vacation: true },
+    '2026-09-05': { loc: '→ Ljubljana 🚌', travel: true, flag: '🇸🇮', vacation: true },
+    '2026-09-06': { loc: 'Ljubljana', flag: '🇸🇮', vacation: true },
+    '2026-09-07': { loc: 'Ljubljana (day trip → Bled)', flag: '🇸🇮', vacation: true },
+    '2026-09-08': { loc: 'Ljubljana', flag: '🇸🇮', vacation: true },
+    '2026-09-09': { loc: '→ Split 🚌', travel: true, flag: '🇭🇷', vacation: true },
+    '2026-09-10': { loc: 'Split', flag: '🇭🇷', vacation: true },
+    '2026-09-11': { loc: 'Split (day trip → Plitvice)', flag: '🇭🇷', vacation: true },
+    '2026-09-12': { loc: 'Split', flag: '🇭🇷', vacation: true },
+    '2026-09-13': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦', vacation: true },
     '2026-09-14': { loc: 'Mostar', flag: '🇧🇦' },
     '2026-09-15': { loc: 'Mostar', flag: '🇧🇦' },
     '2026-09-16': { loc: 'Mostar', flag: '🇧🇦' },
@@ -424,7 +425,7 @@
       h += '<div class="cal-cell" style="background:' + bg + ';border:' + border + '">';
       h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
       h += '<div class="cal-day-num" style="color:' + dayColor + '">' + d + '</div>';
-      if (e.flag) h += '<div class="cal-flag">' + e.flag + '</div>';
+      if (e.flag) h += '<div class="cal-flag">' + (e.vacation ? '🏖️ ' : '') + e.flag + '</div>';
       h += '</div>';
       if (e.loc) h += '<div class="cal-loc">' + e.loc + '</div>';
       if (e.dep) h += '<div class="cal-dep">dep ' + e.dep + '</div>';
