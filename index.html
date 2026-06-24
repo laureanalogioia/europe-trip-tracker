@@ -118,9 +118,9 @@
   <div class="subtitle" id="header-subtitle">Sweden · Norway · Denmark · Germany · Netherlands · France · UK · Ireland</div>
   <div class="header-meta" id="header-meta">
     <div class="meta-item">🗓 <span>56 nights</span></div>
+    <div class="meta-item">🛂 <span>25 Schengen days</span></div>
     <div class="meta-item">🌍 <span>8 countries</span></div>
     <div class="meta-item">📍 <span>9 cities</span></div>
-    <div class="meta-item">🛂 <span>25 Schengen days</span></div>
     <div class="meta-item">📅 <span>Jul 2 – Aug 27, 2026</span></div>
   </div>
 </div>
@@ -1956,9 +1956,9 @@
     document.getElementById('header-subtitle').innerHTML = d.subtitle;
     document.getElementById('header-meta').innerHTML =
       '<div class="meta-item">🗓 <span>' + d.nights + '</span></div>' +
+      '<div class="meta-item">🛂 <span>' + d.schengen + '</span></div>' +
       '<div class="meta-item">🌍 <span>' + d.countries + '</span></div>' +
       '<div class="meta-item">📍 <span>' + d.cities + '</span></div>' +
-      '<div class="meta-item">🛂 <span>' + d.schengen + '</span></div>' +
       '<div class="meta-item">📅 <span>' + d.dates + '</span></div>';
   }
   function showTab(tab) {
