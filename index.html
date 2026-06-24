@@ -296,18 +296,18 @@
     '2026-09-02': { loc: 'Interlaken', flag: '🇨🇭' },
     '2026-09-03': { loc: '→ Venice 🚂', travel: true, flag: '🇮🇹' },
     '2026-09-04': { loc: 'Venice', flag: '🇮🇹' },
-    '2026-09-05': { loc: '→ Lake Bled 🚌', travel: true, flag: '🇸🇮' },
-    '2026-09-06': { loc: 'Lake Bled', flag: '🇸🇮' },
-    '2026-09-07': { loc: 'Lake Bled', flag: '🇸🇮' },
-    '2026-09-08': { loc: '→ Ljubljana 🚌', travel: true, flag: '🇸🇮' },
-    '2026-09-09': { loc: 'Ljubljana', flag: '🇸🇮' },
-    '2026-09-10': { loc: 'Ljubljana', flag: '🇸🇮' },
-    '2026-09-11': { loc: '→ Plitvice 🚌', travel: true, flag: '🇭🇷' },
-    '2026-09-12': { loc: 'Plitvice', flag: '🇭🇷' },
-    '2026-09-13': { loc: '→ Split 🚌', travel: true, flag: '🇭🇷' },
-    '2026-09-14': { loc: 'Split', flag: '🇭🇷' },
-    '2026-09-15': { loc: 'Split', flag: '🇭🇷' },
-    '2026-09-16': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
+    '2026-09-05': { loc: '→ Ljubljana 🚌', travel: true, flag: '🇸🇮' },
+    '2026-09-06': { loc: 'Ljubljana', flag: '🇸🇮' },
+    '2026-09-07': { loc: 'Ljubljana (day trip → Bled)', flag: '🇸🇮' },
+    '2026-09-08': { loc: 'Ljubljana', flag: '🇸🇮' },
+    '2026-09-09': { loc: '→ Split 🚌', travel: true, flag: '🇭🇷' },
+    '2026-09-10': { loc: 'Split', flag: '🇭🇷' },
+    '2026-09-11': { loc: 'Split (day trip → Plitvice)', flag: '🇭🇷' },
+    '2026-09-12': { loc: 'Split', flag: '🇭🇷' },
+    '2026-09-13': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
+    '2026-09-14': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-09-15': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-09-16': { loc: 'Mostar', flag: '🇧🇦' },
     '2026-09-17': { loc: 'Mostar', flag: '🇧🇦' },
     '2026-09-18': { loc: 'Mostar', flag: '🇧🇦' },
     '2026-09-19': { loc: 'Mostar (day trip → Sarajevo)', flag: '🇧🇦' },
@@ -441,7 +441,7 @@
     const container2 = document.getElementById('trip-calendar-leg2');
     if (container2) {
       let out2 = '';
-      [{y:2026,m:9,name:'September 2026'},{y:2026,m:10,name:'October 2026'},{y:2026,m:11,name:'November 2026'}].forEach(function(mo){ out2 += renderMonth(mo.y, mo.m, mo.name); });
+      [{y:2026,m:8,name:'August 2026'},{y:2026,m:9,name:'September 2026'},{y:2026,m:10,name:'October 2026'},{y:2026,m:11,name:'November 2026'}].forEach(function(mo){ out2 += renderMonth(mo.y, mo.m, mo.name); });
       container2.innerHTML = out2;
     }
   });
@@ -589,7 +589,7 @@
 
   <!-- WOODBRIDGE -->
   <div class="stop-group">
-    <div class="stop-label">🇬🇧 Woodbridge — Jul 26 – Aug 28 (BASE · away Aug 14–17 for Ireland · departs Aug 28 for Leg 2)</div>
+    <div class="stop-label">🇬🇧 Woodbridge — Jul 26 – Aug 27 (BASE · away Aug 9–17 for Ireland)</div>
     <div class="booking-row">
       <div class="cat-dot cat-activity"></div>
       <div style="flex:1"><div class="booking-name">The Weeknd — Wembley Stadium</div><div class="booking-detail">Aug 14, 15, 16, 18, or 19 — ticket not yet booked · ticketmaster.co.uk</div></div>
@@ -838,93 +838,66 @@
     </div>
   </div>
 
-  <!-- LAKE BLED -->
-  <div class="stop-group">
-    <div class="stop-label">🇸🇮 Lake Bled — Sep 5–8 (3 nights)</div>
-    <div class="booking-row">
-      <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus/Train Venice → Lake Bled</div><div class="booking-detail">Sep 5 · not yet booked · FlixBus / Omio · ~3–4h</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-7" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-    <div class="booking-row">
-      <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Lake Bled (Sep 9–12)</div><div class="booking-detail">3 nights · not yet booked</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-8" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-  </div>
-
   <!-- LJUBLJANA -->
   <div class="stop-group">
-    <div class="stop-label">🇸🇮 Ljubljana — Sep 8–11 (3 nights · BASE 🌿)</div>
+    <div class="stop-label">🇸🇮 Ljubljana — Sep 5–9 (4 nights · BASE · 3 day trips 🌿)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Lake Bled → Ljubljana</div><div class="booking-detail">Sep 8 · not yet booked · local bus · ~1.5h</div></div>
+      <div style="flex:1"><div class="booking-name">Train/Bus Venice → Ljubljana</div><div class="booking-detail">Sep 5 · not yet booked · train ~2.5h or FlixBus ~3h</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-9" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Ljubljana (Sep 12–16)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Ljubljana (Sep 5–9)</div><div class="booking-detail">6 nights · not yet booked</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-10" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
     </div>
-  </div>
-
-  <!-- PLITVICE -->
-  <div class="stop-group">
-    <div class="stop-label">🇭🇷 Plitvice — Sep 11–13 (2 nights)</div>
-    <div class="booking-row">
-      <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Ljubljana → Plitvice</div><div class="booking-detail">Sep 11 · not yet booked · direct bus · ~2.5h</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-11" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-    <div class="booking-row">
-      <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Plitvice (Sep 16–18)</div><div class="booking-detail">2 nights · not yet booked · guesthouses near park entrance</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-12" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
-    </div>
     <div class="booking-row">
       <div class="cat-dot cat-activity"></div>
-      <div style="flex:1"><div class="booking-name">Plitvice Lakes National Park — Entry Ticket</div><div class="booking-detail">book online in advance · np-plitvicka-jezera.hr</div></div>
+      <div style="flex:1"><div class="booking-name">Day trip — Lake Bled</div><div class="booking-detail">Bus from Ljubljana · ~1h each way · Bled Castle, lake walk, rowing to the island · Sep 7 or 8</div></div>
       <div class="booking-cost"></div>
-      <span class="urgency u-decide">Wishlist</span>
-      <button class="status-btn s-pending" data-id="l2-13" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
+      <span class="urgency u-decide">Plan</span>
+      <button class="status-btn s-pending" data-id="l2-ljub-dt" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
     </div>
   </div>
 
   <!-- SPLIT -->
   <div class="stop-group">
-    <div class="stop-label">🇭🇷 Split — Sep 13–16 (3 nights)</div>
+    <div class="stop-label">🇭🇷 Split — Sep 9–13 (4 nights · Plitvice day trip)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Plitvice → Split</div><div class="booking-detail">Sep 13 · not yet booked · direct bus · ~4h</div></div>
+      <div style="flex:1"><div class="booking-name">Bus Ljubljana → Split</div><div class="booking-detail">Sep 9 · not yet booked · direct bus · ~4h</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-14" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Split (Sep 18–21)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Split (Sep 9–13)</div><div class="booking-detail">4 nights · not yet booked</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-15" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Day trip — Plitvice Lakes</div><div class="booking-detail">Organized tour from Split · ~4h each way · UNESCO lakes & waterfalls · book in advance · Sep 13 or 14</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Book</span>
+      <button class="status-btn s-pending" data-id="l2-split-dt" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
     </div>
   </div>
 
   <!-- MOSTAR -->
   <div class="stop-group">
-    <div class="stop-label">🇧🇦 Mostar — Sep 16–20 (4 nights · Sarajevo as day trip)</div>
+    <div class="stop-label">🇧🇦 Mostar — Sep 13–20 (7 nights · Sarajevo day trip)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Split → Mostar</div><div class="booking-detail">Sep 16 · not yet booked · ~3h via E73 · check FlixBus</div></div>
+      <div style="flex:1"><div class="booking-name">Bus Split → Mostar</div><div class="booking-detail">Sep 13 · not yet booked · ~3h via E73 · check FlixBus</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-22" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Mostar (Sep 16–20)</div><div class="booking-detail">4 nights · not yet booked</div></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Mostar (Sep 13–20)</div><div class="booking-detail">7 nights · not yet booked</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-23" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
     </div>
