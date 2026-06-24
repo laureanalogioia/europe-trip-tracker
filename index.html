@@ -115,12 +115,12 @@
 
 <div class="header">
   <h1>✈ Europe Trip 2026 — Booking Tracker</h1>
-  <div class="subtitle">Stockholm → Santorini &nbsp;·&nbsp; Jul 2 – Nov 19, 2026 &nbsp;·&nbsp; All prices in USD</div>
-  <div class="header-meta">
-    <div class="meta-item">🗓 <span>140 nights</span></div>
-    <div class="meta-item">🌍 <span>12 countries</span></div>
-    <div class="meta-item">📍 <span>28 cities</span></div>
-    <div class="meta-item">🇦🇷 <span>Argentine passport</span> — visa-free throughout</div>
+  <div class="subtitle" id="header-subtitle">Sweden · Norway · Denmark · Germany · Netherlands · France · UK · Ireland</div>
+  <div class="header-meta" id="header-meta">
+    <div class="meta-item">🗓 <span>56 nights</span></div>
+    <div class="meta-item">🌍 <span>8 countries</span></div>
+    <div class="meta-item">📍 <span>9 cities</span></div>
+    <div class="meta-item">📅 <span>Jul 2 – Aug 27, 2026</span></div>
   </div>
 </div>
 <div class="tab-nav">
@@ -1936,7 +1936,28 @@
   updateStats();
   updateStats2();
 
+  const headerData = {
+    leg1: {
+      subtitle: 'Sweden &nbsp;·&nbsp; Norway &nbsp;·&nbsp; Denmark &nbsp;·&nbsp; Germany &nbsp;·&nbsp; Netherlands &nbsp;·&nbsp; France &nbsp;·&nbsp; UK &nbsp;·&nbsp; Ireland',
+      nights: '56 nights', countries: '8 countries', cities: '9 cities', dates: 'Jul 2 – Aug 27, 2026'
+    },
+    leg2: {
+      subtitle: 'Switzerland &nbsp;·&nbsp; Italy &nbsp;·&nbsp; Slovenia &nbsp;·&nbsp; Croatia &nbsp;·&nbsp; Bosnia &nbsp;·&nbsp; Montenegro &nbsp;·&nbsp; Albania &nbsp;·&nbsp; Greece',
+      nights: '68 nights', countries: '8 countries', cities: '15 cities', dates: 'Aug 28 – Nov 4, 2026'
+    }
+  };
+  function updateHeader(tab) {
+    const d = headerData[tab];
+    if (!d) return;
+    document.getElementById('header-subtitle').innerHTML = d.subtitle;
+    document.getElementById('header-meta').innerHTML =
+      '<div class="meta-item">🗓 <span>' + d.nights + '</span></div>' +
+      '<div class="meta-item">🌍 <span>' + d.countries + '</span></div>' +
+      '<div class="meta-item">📍 <span>' + d.cities + '</span></div>' +
+      '<div class="meta-item">📅 <span>' + d.dates + '</span></div>';
+  }
   function showTab(tab) {
+    updateHeader(tab);
     document.getElementById('tab-leg1').style.display = tab === 'leg1' ? '' : 'none';
     document.getElementById('tab-leg2').style.display = tab === 'leg2' ? '' : 'none';
     document.getElementById('tab-weather').style.display = tab === 'weather' ? '' : 'none';
