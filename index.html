@@ -13,7 +13,7 @@
 <style>
   :root { color-scheme: light; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; font-size: 14px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; font-size: 14px; overflow-x: hidden; }
   .header { background: #1a1a1a; color: #fff; padding: 20px 24px 16px; }
   .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
   .header .subtitle { font-size: 12px; color: #999; margin-top: 3px; }
@@ -81,13 +81,6 @@
   .cal-dep { font-size: 7.5px; color: #1d4ed8; line-height: 1.3; margin-top: 1px; font-weight: 700; }
   .cal-note { font-size: 7.5px; color: #6b7280; line-height: 1.3; margin-top: 1px; font-style: italic; }
   .cal-badge { font-size: 8px; background: #f59e0b; color: #fff; border-radius: 2px; padding: 1px 3px; margin-top: 2px; display: inline-block; line-height: 1.4; }
-  @media (max-width: 520px) {
-    .cal-cell { padding: 2px 2px; min-height: 40px; }
-    .cal-day-num { font-size: 8px; }
-    .cal-flag { font-size: 7px; }
-    .cal-loc { font-size: 7px; line-height: 1.2; }
-    .cal-badge { font-size: 6px; padding: 1px 2px; }
-  }
   .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 12px 24px 8px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -314,23 +307,23 @@
     '2026-09-13': { loc: '→ Split 🚌', travel: true, flag: '🇭🇷' },
     '2026-09-14': { loc: 'Split', flag: '🇭🇷' },
     '2026-09-15': { loc: 'Split', flag: '🇭🇷' },
-    '2026-09-16': { loc: '→ Dubrovnik 🚌', travel: true, flag: '🇭🇷' },
-    '2026-09-17': { loc: 'Dubrovnik', flag: '🇭🇷' },
-    '2026-09-18': { loc: 'Dubrovnik', flag: '🇭🇷' },
-    '2026-09-19': { loc: 'Dubrovnik', flag: '🇭🇷' },
-    '2026-09-20': { loc: '→ Kotor 🚌', travel: true, flag: '🇲🇪' },
-    '2026-09-21': { loc: 'Kotor', flag: '🇲🇪' },
-    '2026-09-22': { loc: 'Kotor', flag: '🇲🇪' },
-    '2026-09-23': { loc: 'Kotor', flag: '🇲🇪' },
-    '2026-09-24': { loc: 'Kotor', flag: '🇲🇪' },
-    '2026-09-25': { loc: 'Kotor', holiday: true, flag: '🇲🇪' },
-    '2026-09-26': { loc: 'Kotor', flag: '🇲🇪' },
-    '2026-09-27': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
-    '2026-09-28': { loc: 'Mostar', flag: '🇧🇦' },
-    '2026-09-29': { loc: 'Mostar', flag: '🇧🇦' },
-    '2026-09-30': { loc: '→ Sarajevo 🚌', travel: true, flag: '🇧🇦' },
-    '2026-10-01': { loc: 'Sarajevo', flag: '🇧🇦' },
-    '2026-10-02': { loc: 'Sarajevo', flag: '🇧🇦' },
+    '2026-09-16': { loc: '→ Mostar 🚌', travel: true, flag: '🇧🇦' },
+    '2026-09-17': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-09-18': { loc: 'Mostar', flag: '🇧🇦' },
+    '2026-09-19': { loc: 'Mostar (day trip → Sarajevo)', flag: '🇧🇦' },
+    '2026-09-20': { loc: '→ Dubrovnik 🚌', travel: true, flag: '🇭🇷' },
+    '2026-09-21': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-22': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-23': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-24': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-25': { loc: 'Dubrovnik', holiday: true, flag: '🇭🇷' },
+    '2026-09-26': { loc: '→ Kotor 🚌', travel: true, flag: '🇲🇪' },
+    '2026-09-27': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-28': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-29': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-30': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-10-01': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-10-02': { loc: 'Kotor', flag: '🇲🇪' },
     '2026-10-03': { loc: '→ Sarandë 🚌', travel: true, flag: '🇦🇱' },
     '2026-10-04': { loc: 'Sarandë', flag: '🇦🇱' },
     '2026-10-05': { loc: 'Sarandë', flag: '🇦🇱' },
@@ -920,78 +913,68 @@
     </div>
   </div>
 
-  <!-- DUBROVNIK -->
-  <div class="stop-group">
-    <div class="stop-label">🇭🇷 Dubrovnik — Sep 16–20 (4 nights)</div>
-    <div class="booking-row">
-      <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Split → Dubrovnik</div><div class="booking-detail">Sep 16 · not yet booked · Croatia Bus / FlixBus · ~4h</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-16" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-    <div class="booking-row">
-      <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Dubrovnik (Sep 21–26)</div><div class="booking-detail">5 nights · not yet booked · book early, Dubrovnik is expensive</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-17" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-  </div>
-
-  <!-- KOTOR -->
-  <div class="stop-group">
-    <div class="stop-label">🇲🇪 Kotor — Sep 20–27 (7 nights · BASE · Budva day trip 🌿)</div>
-    <div class="booking-row">
-      <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Dubrovnik → Kotor</div><div class="booking-detail">Sep 20 · not yet booked · direct bus · ~2h · crosses into Montenegro</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-18" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-    <div class="booking-row">
-      <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Kotor (Sep 20–27)</div><div class="booking-detail">7 nights · not yet booked · staying here as BASE for the bay</div></div>
-      <div class="booking-cost"></div>
-      <button class="status-btn s-pending" data-id="l2-19" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-    <div class="booking-row">
-      <div class="cat-dot cat-activity"></div>
-      <div style="flex:1"><div class="booking-name">Day trip — Budva</div><div class="booking-detail">30 min by bus (~€2) · beaches, old town · pick a free day in Sep 20–27</div></div>
-      <div class="booking-cost"></div>
-      <span class="urgency u-decide">Planned</span>
-      <button class="status-btn s-pending" data-id="l2-19b" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
-    </div>
-  </div>
-
   <!-- MOSTAR -->
   <div class="stop-group">
-    <div class="stop-label">🇧🇦 Mostar — Sep 27–30 (3 nights)</div>
+    <div class="stop-label">🇧🇦 Mostar — Sep 16–20 (4 nights · Sarajevo as day trip)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Budva → Mostar</div><div class="booking-detail">Sep 27 · not yet booked · ~4–5h via Trebinje · check FlixBus</div></div>
+      <div style="flex:1"><div class="booking-name">Bus Split → Mostar</div><div class="booking-detail">Sep 16 · not yet booked · ~3h via E73 · check FlixBus</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-22" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Mostar (Oct 4–7)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Mostar (Sep 16–20)</div><div class="booking-detail">4 nights · not yet booked</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-23" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
     </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Day trip — Sarajevo</div><div class="booking-detail">Bus from Mostar · ~2.5h each way · depart early · old town, war tunnel museum · pick Sep 18 or 19</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Plan</span>
+      <button class="status-btn s-pending" data-id="l2-mos-dt" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
+    </div>
   </div>
 
-  <!-- SARAJEVO -->
+  <!-- DUBROVNIK -->
   <div class="stop-group">
-    <div class="stop-label">🇧🇦 Sarajevo — Sep 30–Oct 3 (3 nights)</div>
+    <div class="stop-label">🇭🇷 Dubrovnik — Sep 20–26 (6 nights)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Mostar → Sarajevo</div><div class="booking-detail">Sep 30 · not yet booked · direct bus · ~2.5h</div></div>
+      <div style="flex:1"><div class="booking-name">Bus Mostar → Dubrovnik</div><div class="booking-detail">Sep 20 · not yet booked · direct bus · ~3h via Trebinje</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-24" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-accommodation"></div>
-      <div style="flex:1"><div class="booking-name">Accommodation — Sarajevo (Oct 7–10)</div><div class="booking-detail">3 nights · not yet booked</div></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Dubrovnik (Sep 20–26)</div><div class="booking-detail">6 nights · not yet booked · old town or Lapad area</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-25" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- KOTOR -->
+  <div class="stop-group">
+    <div class="stop-label">🇲🇪 Kotor — Sep 26–Oct 3 (7 nights · BASE · Budva day trip 🌿)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Dubrovnik → Kotor</div><div class="booking-detail">Sep 26 · not yet booked · direct bus · ~2h · crosses into Montenegro</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-26" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Accommodation — Kotor (Sep 26–Oct 3)</div><div class="booking-detail">7 nights · not yet booked · staying here as BASE for the bay</div></div>
+      <div class="booking-cost"></div>
+      <button class="status-btn s-pending" data-id="l2-27" data-cost="0" data-cat="accommodation" onclick="toggleStatus2(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Day trip — Budva</div><div class="booking-detail">30 min by bus (~€2) · beaches, old town · pick a free day in Sep 26–Oct 3</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Planned</span>
+      <button class="status-btn s-pending" data-id="l2-19b" data-cost="0" data-cat="activity" onclick="toggleStatus2(this)">Pending</button>
     </div>
   </div>
 
@@ -1000,7 +983,7 @@
     <div class="stop-label">🇦🇱 Sarandë — Oct 3–10 (7 nights · BASE 🌿)</div>
     <div class="booking-row">
       <div class="cat-dot cat-transport"></div>
-      <div style="flex:1"><div class="booking-name">Bus Sarajevo → Sarandë</div><div class="booking-detail">Oct 3 · not yet booked · ~7h · check FlixBus</div></div>
+      <div style="flex:1"><div class="booking-name">Bus Kotor → Sarandë</div><div class="booking-detail">Oct 3 · not yet booked · ~5h via Shkodër · check FlixBus</div></div>
       <div class="booking-cost"></div>
       <button class="status-btn s-pending" data-id="l2-28" data-cost="0" data-cat="transport" onclick="toggleStatus2(this)">Pending</button>
     </div>
