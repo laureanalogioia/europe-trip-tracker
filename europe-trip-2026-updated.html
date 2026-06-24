@@ -1,0 +1,1363 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Europe Trip 2026",
+  "schemaVersion": 1,
+  "description": "Europe trip booking tracker — Stockholm to Santorini, Jul 2–Nov 19 2026. 34 Leg 1 bookings with status, cost tracking, and Leg 2 city overview."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Europe Trip 2026 — Booking Tracker</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a1a; font-size: 14px; }
+  .header { background: #1a1a1a; color: #fff; padding: 20px 24px 16px; }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 12px; color: #999; margin-top: 3px; }
+  .header-meta { display: flex; gap: 20px; margin-top: 14px; flex-wrap: wrap; }
+  .meta-item { font-size: 12px; color: #ccc; }
+  .meta-item span { color: #fff; font-weight: 600; }
+  .progress-section { background: #fff; padding: 16px 24px; border-bottom: 1px solid #eee; }
+  .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+  .progress-counts { font-size: 12px; color: #888; }
+  .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #22c55e; border-radius: 4px; transition: width 0.3s; }
+  .stats-row { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .stat { flex: 1; min-width: 100px; background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 10px 14px; }
+  .stat-val { font-size: 20px; font-weight: 700; color: #1a1a1a; }
+  .stat-val.green { color: #16a34a; }
+  .stat-val.amber { color: #d97706; }
+  .stat-label { font-size: 11px; color: #888; margin-top: 2px; }
+  .leg { margin: 16px; background: #fff; border-radius: 10px; border: 1px solid #e5e5e5; overflow: hidden; }
+  .leg-header { padding: 12px 16px; background: #f8f8f8; border-bottom: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; }
+  .leg-title { font-size: 13px; font-weight: 700; }
+  .leg-sub { font-size: 11px; color: #888; margin-top: 1px; }
+  .leg-badge { font-size: 11px; background: #e5e7eb; color: #374151; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+  .stop-group { border-bottom: 1px solid #f0f0f0; }
+  .stop-group:last-child { border-bottom: none; }
+  .stop-label { padding: 8px 16px 4px; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.6px; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+  .booking-row { display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-bottom: 1px solid #f5f5f5; transition: background 0.1s; }
+  .booking-row:last-child { border-bottom: none; }
+  .booking-row:hover { background: #fafafa; }
+  .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .booking-name { flex: 1; font-size: 13px; color: #222; }
+  .booking-detail { font-size: 11px; color: #999; margin-top: 1px; }
+  .booking-cost { font-size: 12px; color: #555; width: 60px; text-align: right; flex-shrink: 0; }
+  .urgency { font-size: 10px; padding: 2px 6px; border-radius: 10px; flex-shrink: 0; font-weight: 600; }
+  .u-now { background: #fee2e2; color: #dc2626; }
+  .u-soon { background: #fef9c3; color: #ca8a04; }
+  .u-arrival { background: #dbeafe; color: #2563eb; }
+  .u-decide { background: #fae8ff; color: #9333ea; }
+  .u-nonref { background: #fee2e2; color: #991b1b; }
+  .u-cancel { background: #fae8ff; color: #7e22ce; }
+  .status-btn { font-size: 11px; padding: 3px 9px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; flex-shrink: 0; transition: all 0.15s; }
+  .s-pending { background: #f3f4f6; color: #6b7280; }
+  .s-confirmed { background: #dcfce7; color: #15803d; }
+  .local-xfer { display: flex; align-items: flex-start; gap: 8px; padding: 7px 16px; background: #f0f9ff; border-bottom: 1px solid #e0f0fb; font-size: 11px; color: #374151; }
+  .local-xfer-label { font-weight: 700; color: #0369a1; white-space: nowrap; flex-shrink: 0; }
+  .local-xfer-text { color: #4b5563; line-height: 1.5; }
+  .cat-flight { background: #6366f1; }
+  .cat-transport { background: #0ea5e9; }
+  .cat-accommodation { background: #f59e0b; }
+  .cat-activity { background: #ec4899; }
+  .cat-connectivity { background: #8b5cf6; }
+  .cat-insurance { background: #14b8a6; }
+  .leg2-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: #f0f0f0; }
+  .leg2-city { background: #fff; padding: 10px 14px; }
+  .leg2-city-name { font-size: 12px; font-weight: 700; color: #1a1a1a; }
+  .leg2-city-dates { font-size: 11px; color: #888; margin-top: 1px; }
+  .leg2-city-nights { font-size: 11px; color: #6366f1; font-weight: 600; }
+  .leg2-city.float { border-left: 3px solid #22c55e; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 12px 24px 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .warning { margin: 12px 16px 0; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .warning-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .warning-title { font-size: 12px; font-weight: 700; color: #c2410c; }
+  .warning-body { font-size: 12px; color: #7c3b1e; margin-top: 2px; }
+  .conf-detail { font-size: 10px; color: #16a34a; font-weight: 500; margin-top: 2px; }
+  .tab-nav { background: #1a1a1a; display: flex; gap: 0; padding: 0 24px; border-top: 1px solid #2d2d2d; }
+  .tab-btn { background: none; border: none; color: #888; font-size: 13px; font-weight: 600; padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; letter-spacing: 0.2px; }
+  .tab-btn:hover { color: #ccc; }
+  .tab-btn.active { color: #fff; border-bottom-color: #22c55e; }
+  .footer { text-align: center; font-size: 11px; color: #bbb; padding: 16px; }
+  .spend-breakdown { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 16px; }
+  .spend-cat { display: flex; align-items: center; gap: 6px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 20px; padding: 4px 11px; font-size: 11px; }
+  .spend-cat-label { color: #6b7280; }
+  .spend-cat-val { font-weight: 700; color: #111827; }
+  .spend-cat { cursor: pointer; transition: background 0.12s, border-color 0.12s; }
+  .spend-cat:hover { background: #f3f4f6; border-color: #9ca3af; }
+  .spend-cat.active { background: #eef2ff; border-color: #6366f1; }
+  .spend-cat-arrow { font-size: 9px; color: #9ca3af; margin-left: 2px; }
+  .cat-ph { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#f3f4f6; font-size:12px; font-weight:700; color:#374151; border-bottom:1px solid #e5e7eb; }
+  .cat-pi { display:flex; justify-content:space-between; padding:6px 12px; border-bottom:1px solid #f5f5f5; }
+  .cat-pi:last-child { border-bottom:none; }
+  .cat-pn { color:#374151; flex:1; padding-right:8px; line-height:1.4; }
+  .cat-pc { color:#111827; font-weight:700; white-space:nowrap; }
+  .cat-pt { padding:6px 12px; font-size:11px; font-weight:700; color:#374151; background:#f1f5f9; text-align:right; border-top:1px solid #e5e7eb; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>✈ Europe Trip 2026 — Booking Tracker</h1>
+  <div class="subtitle">Stockholm → Santorini &nbsp;·&nbsp; Jul 2 – Nov 19, 2026 &nbsp;·&nbsp; All prices in USD</div>
+  <div class="header-meta">
+    <div class="meta-item">🗓 <span>140 nights</span></div>
+    <div class="meta-item">🌍 <span>12 countries</span></div>
+    <div class="meta-item">📍 <span>28 cities</span></div>
+    <div class="meta-item">🇦🇷 <span>Argentine passport</span> — visa-free throughout</div>
+  </div>
+</div>
+<div class="tab-nav">
+  <button class="tab-btn active" id="tab-btn-leg1" onclick="showTab('leg1')">🌍 Northern Europe</button>
+  <button class="tab-btn" id="tab-btn-leg2" onclick="showTab('leg2')">🌍 Southern Europe</button>
+  <button class="tab-btn" id="tab-btn-weather" onclick="showTab('weather')">☁️ Weather</button>
+  <button class="tab-btn" id="tab-btn-wc" onclick="showTab('wc')">🏆 World Cup</button>
+</div>
+<div id="tab-leg1">
+
+<div class="progress-section">
+  <div class="progress-row">
+    <div class="progress-label">Leg 1 Booking Progress</div>
+    <div class="progress-counts" id="prog-counts">0 / 0 confirmed</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-bar" style="width:0%"></div></div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val green" id="stat-confirmed">0</div><div class="stat-label">Confirmed</div></div>
+    <div class="stat"><div class="stat-val amber" id="stat-pending">0</div><div class="stat-label">Still pending</div></div>
+    <div class="stat"><div class="stat-val" id="stat-usd-spent">US$0</div><div class="stat-label">Paid so far</div><div id="stat-paid-sub" style="font-size:10px;color:#999;margin-top:3px;line-height:1.3"></div></div>
+    <div class="stat"><div class="stat-val" id="stat-cost-total">~US$3,000</div><div class="stat-label">Leg 1 total est.</div></div>
+  </div>
+  <div style="height:1px;background:#f0f0f0;margin:4px 16px 0"></div>
+  <div class="spend-breakdown">
+    <div class="spend-cat" data-catkey="flight-intl" onclick="toggleCatPanel('flight-intl')"><span class="spend-cat-label">✈ Intl flight</span>&ensp;<span class="spend-cat-val" id="cat-flight-intl">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="flight-eu" onclick="toggleCatPanel('flight-eu')"><span class="spend-cat-label">✈ EU flights</span>&ensp;<span class="spend-cat-val" id="cat-flight-eu">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="transport" onclick="toggleCatPanel('transport')"><span class="spend-cat-label">🚂 Trains &amp; buses</span>&ensp;<span class="spend-cat-val" id="cat-transport">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="accommodation" onclick="toggleCatPanel('accommodation')"><span class="spend-cat-label">🏨 Accommodation</span>&ensp;<span class="spend-cat-val" id="cat-accommodation">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="activity" onclick="toggleCatPanel('activity')"><span class="spend-cat-label">🎭 Activities</span>&ensp;<span class="spend-cat-val" id="cat-activity">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="connectivity" onclick="toggleCatPanel('connectivity')"><span class="spend-cat-label">📱 Connectivity</span>&ensp;<span class="spend-cat-val" id="cat-connectivity">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+  </div>
+  <!-- Category detail panel -->
+  <div id="cat-detail-panel" style="display:none;margin:0 16px 6px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
+  <!-- Per-city breakdown chips -->
+  <div style="padding:2px 16px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">By city</div>
+  <div class="spend-breakdown" id="city-chips-row"></div>
+  <!-- City detail panel -->
+  <div id="city-detail-panel" style="display:none;margin:0 16px 14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
+</div>
+
+<style>
+  .todo-panel { margin: 14px 16px 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px 12px; }
+  .todo-title { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+  .todo-cols { display: flex; gap: 10px; flex-wrap: wrap; }
+  .todo-col { flex: 1; min-width: 190px; background: #fafafa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; }
+  .todo-col-head { font-size: 11px; font-weight: 700; color: #374151; margin-bottom: 7px; }
+  .todo-item { display: flex; align-items: flex-start; gap: 7px; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+  .todo-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .todo-cb { width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid #d1d5db; background: #fff; cursor: pointer; flex-shrink: 0; margin-top: 1px; appearance: none; -webkit-appearance: none; transition: all 0.15s; }
+  .todo-cb:checked { background: #22c55e; border-color: #22c55e; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 5l2.5 2.5 4.5-4.5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .todo-text { font-size: 12px; color: #374151; line-height: 1.4; }
+  .todo-text.done { text-decoration: line-through; color: #9ca3af; }
+  .todo-badge { font-size: 9px; padding: 1px 5px; border-radius: 8px; font-weight: 700; margin-left: 3px; vertical-align: middle; white-space: nowrap; }
+  .tb-red { background: #fee2e2; color: #dc2626; }
+  .tb-purple { background: #fae8ff; color: #7e22ce; }
+  .tb-blue { background: #dbeafe; color: #2563eb; }
+  .tb-orange { background: #fff7ed; color: #c2410c; }
+</style>
+<div class="todo-panel">
+<div class="todo-title">📋 Action items</div>
+<div class="todo-cols">
+
+  <div class="todo-col">
+    <div class="todo-col-head">🛡️ Buy &amp; sort</div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Insurance Leg 2:</strong> Current policy (T034307709) expires Aug 28. Need cover Sep 1–Nov 19 <span class="todo-badge tb-orange">gap: 83 days</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>eSIM:</strong> Get a Europe data eSIM before departure (Jul 2) <span class="todo-badge tb-blue">pre-trip</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>BlaBlaCar voucher SGHQZA:</strong> €24.49 credit — use before Dec 31, 2026 <span class="todo-badge tb-orange">don't waste it</span></div>
+    </div>
+  </div>
+
+  <div class="todo-col">
+    <div class="todo-col-head">🎭 Book on GetYourGuide</div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Dublin:</strong> Cliffs of Moher, Wicklow, walking tour, Guinness, EPIC Museum <span class="todo-badge tb-blue">wishlist</span></div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+<!-- TRIP CALENDAR -->
+<div class="leg" style="margin:16px 16px 0" id="trip-cal">
+  <div class="leg-header">
+    <div>
+      <div class="leg-title">📅 Trip Calendar — Jul–Aug 2026</div>
+      <div class="leg-sub">All bookings at a glance · Holidays flagged in gold</div>
+    </div>
+  </div>
+  <div style="padding:10px 16px 4px;display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#555">
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fef3c7;border:1px solid #fcd34d;border-radius:2px;display:inline-block"></span>Holiday</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;display:inline-block"></span>Travel day</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fce7f3;border:1px solid #f9a8d4;border-radius:2px;display:inline-block"></span>Optional</span>
+  </div>
+  <div id="trip-calendar" style="padding:4px 16px 16px"></div>
+</div>
+
+<script>
+(function() {
+  const ev = {
+    '2026-07-01': {},
+    '2026-07-02': { loc: 'Arrive Stockholm', holiday: true, flag: '🇸🇪' },
+    '2026-07-03': { loc: 'Stockholm', holiday: true, flag: '🇸🇪' },
+    '2026-07-04': { loc: 'Stockholm', flag: '🇸🇪' },
+    '2026-07-05': { loc: '→ Oslo 🚂', travel: true, flag: '🇳🇴', dep: '15:23' },
+    '2026-07-06': { loc: 'Oslo', flag: '🇳🇴' },
+    '2026-07-07': { loc: 'Oslo', flag: '🇳🇴' },
+    '2026-07-08': { loc: '→ Copenhagen 🚌', travel: true, flag: '🇩🇰', dep: '11:00' },
+    '2026-07-09': { loc: 'Copenhagen', holiday: true, flag: '🇩🇰' },
+    '2026-07-10': { loc: 'Copenhagen', holiday: true, flag: '🇩🇰' },
+    '2026-07-11': { loc: 'Copenhagen', flag: '🇩🇰', note: '🦌 Dyrehaven + Helsingør day trip' },
+    '2026-07-12': { loc: '→ Hamburg 🚂', travel: true, flag: '🇩🇪', dep: '10:43' },
+    '2026-07-13': { loc: 'Hamburg', flag: '🇩🇪' },
+    '2026-07-14': { loc: '→ Amsterdam 🚂', travel: true, flag: '🇳🇱', dep: '08:42' },
+    '2026-07-15': { loc: 'Amsterdam', flag: '🇳🇱' },
+    '2026-07-16': { loc: 'Amsterdam', flag: '🇳🇱' },
+    '2026-07-17': { loc: 'Amsterdam', flag: '🇳🇱', note: '🎵 The Weeknd concert' },
+    '2026-07-18': { loc: 'Amsterdam', flag: '🇳🇱' },
+    '2026-07-19': { loc: '→ Paris 🚂', travel: true, flag: '🇫🇷', dep: '13:10' },
+    '2026-07-20': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-21': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-22': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-23': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-24': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-25': { loc: 'Paris', flag: '🇫🇷' },
+    '2026-07-26': { loc: '→ London ✈', travel: true, flag: '🇬🇧', dep: '13:45' },
+    '2026-07-27': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-07-28': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-07-29': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-07-30': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-07-31': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-01': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-02': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-03': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-04': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-05': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-06': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-07': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-08': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-09': { loc: '→ Dublin ✈', travel: true, flag: '🇮🇪', dep: '13:20' },
+    '2026-08-10': { loc: 'Dublin', flag: '🇮🇪' },
+    '2026-08-11': { loc: 'Dublin', flag: '🇮🇪' },
+    '2026-08-12': { loc: 'Dublin', flag: '🇮🇪' },
+    '2026-08-13': { loc: 'Dublin', flag: '🇮🇪' },
+    '2026-08-14': { loc: '→ Galway 🚌', travel: true, holiday: true, flag: '🇮🇪', dep: '10:45' },
+    '2026-08-15': { loc: 'Galway', flag: '🇮🇪', note: '🏝 Aran Islands + Cliffs of Moher cruise' },
+    '2026-08-16': { loc: 'Galway', flag: '🇮🇪', note: '🏔 Connemara + Kylemore Abbey' },
+    '2026-08-17': { loc: '→ Woodbridge ✈', travel: true, holiday: true, flag: '🇬🇧', dep: '10:30' },
+    '2026-08-18': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-19': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-20': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-21': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-22': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-23': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-24': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-25': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-26': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-27': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-28': { loc: 'Woodbridge', holiday: true, flag: '🇬🇧' },
+    '2026-08-29': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-30': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-08-31': { loc: 'Woodbridge', flag: '🇬🇧' },
+    '2026-09-01': { loc: '→ Geneva ✈', travel: true, flag: '🇨🇭' },
+    '2026-09-02': { loc: 'Geneva', flag: '🇨🇭' },
+    '2026-09-03': { loc: '→ Interlaken', travel: true, flag: '🇨🇭' },
+    '2026-09-04': { loc: 'Interlaken', flag: '🇨🇭' },
+    '2026-09-05': { loc: 'Interlaken', flag: '🇨🇭' },
+    '2026-09-06': { loc: '→ Venice', travel: true, flag: '🇮🇹' },
+    '2026-09-07': { loc: 'Venice', flag: '🇮🇹' },
+    '2026-09-08': { loc: 'Venice', flag: '🇮🇹' },
+    '2026-09-09': { loc: '→ Lake Bled', travel: true, flag: '🇸🇮' },
+    '2026-09-10': { loc: 'Lake Bled', flag: '🇸🇮' },
+    '2026-09-11': { loc: 'Lake Bled', flag: '🇸🇮' },
+    '2026-09-12': { loc: '→ Ljubljana', travel: true, flag: '🇸🇮' },
+    '2026-09-13': { loc: 'Ljubljana', flag: '🇸🇮' },
+    '2026-09-14': { loc: 'Ljubljana', flag: '🇸🇮' },
+    '2026-09-15': { loc: 'Ljubljana', flag: '🇸🇮' },
+    '2026-09-16': { loc: '→ Plitvice', travel: true, flag: '🇭🇷' },
+    '2026-09-17': { loc: 'Plitvice', flag: '🇭🇷' },
+    '2026-09-18': { loc: '→ Split', travel: true, flag: '🇭🇷' },
+    '2026-09-19': { loc: 'Split', flag: '🇭🇷' },
+    '2026-09-20': { loc: 'Split', flag: '🇭🇷' },
+    '2026-09-21': { loc: '→ Dubrovnik', travel: true, flag: '🇭🇷' },
+    '2026-09-22': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-23': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-24': { loc: 'Dubrovnik', flag: '🇭🇷' },
+    '2026-09-25': { loc: 'Dubrovnik', holiday: true, flag: '🇭🇷' },
+    '2026-09-26': { loc: '→ Kotor', travel: true, flag: '🇲🇪' },
+    '2026-09-27': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-28': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-29': { loc: 'Kotor', flag: '🇲🇪' },
+    '2026-09-30': { loc: 'Kotor', flag: '🇲🇪' },
+  };
+
+  const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  function pad(n) { return n < 10 ? '0'+n : n; }
+
+  function renderMonth(y, m, name) {
+    const firstDay = new Date(y, m-1, 1);
+    const daysInMonth = new Date(y, m, 0).getDate();
+    let startDow = firstDay.getDay();
+    startDow = startDow === 0 ? 6 : startDow - 1;
+
+    let h = '<div style="margin-bottom:18px">';
+    h += '<div style="font-size:12px;font-weight:700;color:#374151;margin:10px 0 6px;text-transform:uppercase;letter-spacing:0.5px">' + name + '</div>';
+    h += '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">';
+
+    dayLabels.forEach(d => {
+      h += '<div style="text-align:center;font-size:9px;font-weight:600;color:#9ca3af;padding:2px 0">' + d + '</div>';
+    });
+
+    for (let i = 0; i < startDow; i++) {
+      h += '<div style="min-height:52px;background:#fafafa;border-radius:3px"></div>';
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = y + '-' + pad(m) + '-' + pad(d);
+      const e = ev[key] || {};
+      let bg = '#fff', border = '1px solid #f0f0f0', badgeHtml = '';
+
+      if (e.holiday) {
+        bg = '#fef3c7'; border = '1px solid #fcd34d';
+        badgeHtml = '<div style="font-size:8px;background:#f59e0b;color:#fff;border-radius:2px;padding:1px 3px;margin-top:2px;display:inline-block;line-height:1.4">Holiday</div>';
+      } else if (e.travel) {
+        bg = '#dbeafe'; border = '1px solid #bfdbfe';
+      } else if (e.optional) {
+        bg = '#fce7f3'; border = '1px solid #fbcfe8';
+      } else if (e.event) {
+        bg = '#fdf4ff'; border = '1px solid #e9d5ff';
+      }
+
+      const isWeekend = ((startDow + d - 1) % 7) >= 5;
+      const dayColor = isWeekend ? '#6366f1' : '#374151';
+
+      h += '<div style="background:' + bg + ';border:' + border + ';border-radius:3px;padding:3px 4px;min-height:52px">';
+      h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
+      h += '<div style="font-size:10px;font-weight:700;color:' + dayColor + '">' + d + '</div>';
+      if (e.flag) h += '<div style="font-size:9px;line-height:1">' + e.flag + '</div>';
+      h += '</div>';
+      if (e.loc) h += '<div style="font-size:8.5px;color:#4b5563;line-height:1.3;margin-top:1px">' + e.loc + '</div>';
+      if (e.dep) h += '<div style="font-size:7.5px;color:#1d4ed8;line-height:1.3;margin-top:1px;font-weight:700">dep ' + e.dep + '</div>';
+      if (e.note) h += '<div style="font-size:7.5px;color:#6b7280;line-height:1.3;margin-top:1px;font-style:italic">(' + e.note + ')</div>';
+      if (badgeHtml) h += badgeHtml;
+      h += '</div>';
+    }
+
+    h += '</div></div>';
+    return h;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('trip-calendar');
+    if (container) {
+      let out = '';
+      [{ y: 2026, m: 7, name: 'July 2026' }, { y: 2026, m: 8, name: 'August 2026' }].forEach(function(mo) { out += renderMonth(mo.y, mo.m, mo.name); });
+      container.innerHTML = out;
+    }
+    const container2 = document.getElementById('trip-calendar-sep');
+    if (container2) {
+      container2.innerHTML = renderMonth(2026, 9, 'September 2026');
+    }
+  });
+})();
+</script>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot cat-flight"></div> Flight</div>
+  <div class="legend-item"><div class="legend-dot cat-transport"></div> Train/Bus/Ferry</div>
+  <div class="legend-item"><div class="legend-dot cat-accommodation"></div> Accommodation</div>
+  <div class="legend-item"><div class="legend-dot cat-activity"></div> Activity</div>
+
+</div>
+
+<!-- LEG 1 -->
+<div class="leg" id="leg1">
+  <div class="leg-header">
+    <div>
+      <div class="leg-title">🌍 Northern Europe</div>
+      <div class="leg-sub">Jul 2 – Aug 31, 2026 &nbsp;·&nbsp; Sweden → Norway → Denmark → Germany → Netherlands → France → UK → Ireland</div>
+    </div>
+    <div class="leg-badge" id="leg1-badge">0 / 0</div>
+  </div>
+
+  <!-- STOCKHOLM -->
+  <div class="stop-group">
+    <div class="stop-label">🇸🇪 Stockholm — Jul 2–5 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Generator Stockholm — 3 nights (Jul 2–5)</div><div class="booking-detail">Torsgatan 10, Norrmalm · 6-bed female dorm · Check-in from 14:00 Jul 2 · Check-out by 10:00 Jul 5</div><div class="conf-detail">✓ Booking.com conf 6301924668 · Paid SEK 1,273 (US$133) · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">US$133<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">US$44/night</div></div>
+      <button class="status-btn s-confirmed" data-id="4" data-cost="133" data-usd="133" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">ABBA The Museum Entrance Ticket</div><div class="booking-detail">Jul 4 at 6:00 PM · 2 hours · 1 adult</div><div class="conf-detail">✓ GYG ref GYG7VKXQRNF8 · PIN XfcjdQAD · Paid US$34.75</div></div>
+      <div class="booking-cost">US$35</div>
+      <button class="status-btn s-confirmed" data-id="6" data-cost="35" data-usd="34.75" data-cat="activity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Guided Archipelago Boat Tour</div><div class="booking-detail">Jul 4 at 2:00 PM · 2 hours · 1 adult (English)</div><div class="conf-detail">✓ GYG ref GYGFWV69M5X2 · PIN Env@8Bty · Paid US$38.57</div></div>
+      <div class="booking-cost">US$39</div>
+      <button class="status-btn s-confirmed" data-id="35" data-cost="39" data-usd="38.57" data-cat="activity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- OSLO -->
+  <div class="stop-group">
+    <div class="stop-label">🇳🇴 Oslo — Jul 5–8 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Train Stockholm → Oslo — SJ 669</div><div class="booking-detail">Sun Jul 5 · Departs 15:23 Stockholm Central · Arrives 21:23 Oslo Central · 6h</div><div class="conf-detail">✓ Booking CCR0721H · Paid US$82.58</div></div>
+      <div class="booking-cost">US$83</div>
+      <button class="status-btn s-confirmed" data-id="7" data-cost="83" data-usd="82.58" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Bunks at Rode — 3 nights (Jul 5–8)</div><div class="booking-detail">10 Københavngata, Grünerløkka · Female dorm · Check-in from 15:00 Jul 5 · Check-out by 11:00 Jul 8</div><div class="conf-detail">✓ Booking.com conf 5621765534 · ~NOK 1,754 (US$164) charged automatically · Free cancel until Jul 3</div></div>
+      <div class="booking-cost">~US$164<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">~US$55/night</div></div>
+      <button class="status-btn s-confirmed" data-id="8" data-cost="164" data-usd="0" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- COPENHAGEN -->
+  <div class="stop-group">
+    <div class="stop-label">🇩🇰 Copenhagen — Jul 8–12 (4 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Bus Oslo → Copenhagen — Vy bus4you Line 600</div><div class="booking-detail">Wed Jul 8 · Departs 11:00 Oslo bussterminal · Arrives 19:00 Copenhagen (Dybbølsbro) · Seat 14C Plus</div><div class="conf-detail">✓ Booking 260608609390 · Paid US$53</div></div>
+      <div class="booking-cost">US$53</div>
+      <button class="status-btn s-confirmed" data-id="10" data-cost="53" data-usd="53" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Generator Copenhagen — 4 nights (Jul 8–12)</div><div class="booking-detail">Adelgade 5–7 · 6-bed female dorm · Check-in from 14:00 Jul 8 · Check-out by 10:00 Jul 12</div><div class="conf-detail">✓ Booking.com conf 6083.405.832 · PIN 9815 · Paid US$182</div></div>
+      <div class="booking-cost">US$182<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">US$46/night</div></div>
+      <button class="status-btn s-confirmed" data-id="16" data-cost="182" data-usd="182" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Day trip — Sat Jul 11 · Dyrehaven + Helsingør</div><div class="booking-detail">🦌 Dyrehaven (S-train Line C → Klampenborg, 25 min) — ancient royal deer park, free entry. 🏰 Helsingør (coastal train north, ~35 min) — Kronborg Castle, Hamlet's fortress on the water. Full day, no backtracking.</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Planned</span>
+      <button class="status-btn s-pending" data-id="46" data-cost="0" data-cat="activity" onclick="toggleStatus(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- HAMBURG -->
+  <div class="stop-group">
+    <div class="stop-label">🇩🇪 Hamburg — Jul 12–14 (2 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Train Copenhagen → Hamburg Hbf — ICE/ECE 395</div><div class="booking-detail">Sun Jul 12 · Departs 10:43 København H → Arrives 17:13 Hamburg Hbf · Seat Wg. 21 Pl. 62</div><div class="conf-detail">✓ Omio ref 148003305956 · Ticket FRZ2V9T7 · Paid US$41</div></div>
+      <div class="booking-cost">US$41</div>
+      <button class="status-btn s-confirmed" data-id="18" data-cost="41" data-usd="41" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">a&amp;o Hamburg Hauptbahnhof — Private Single En Suite (Jul 12–14)</div><div class="booking-detail">Amsinckstrasse 2 · Private room with bathroom · 2 nights · recharge stay 🛁</div><div class="conf-detail">✓ Hostelworld ref 19393-578309546 · Paid US$15.03 deposit · €90.57 due at property</div></div>
+      <div class="booking-cost">US$118<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">US$59/night</div></div>
+      <button class="status-btn s-confirmed" data-id="19b" data-cost="118" data-usd="15.03" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- AMSTERDAM -->
+  <div class="stop-group">
+    <div class="stop-label">🇳🇱 Amsterdam — Jul 14–19 (5 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Train Hamburg Hbf → Amsterdam Centraal — ICE 107 + ICE 148</div><div class="booking-detail">Tue Jul 14 · dep 08:42 Hamburg Hbf → arr 14:01 Amsterdam Centraal · Seat Wg. 22 Pl. 34 Ruhebereich (quiet zone)</div><div class="conf-detail">✓ DB Order 329763323497 · Ticket AG7ZL5Z6 · Paid €61.99 (US$67) · ⚠️ Non-refundable · Photo ID required</div></div>
+      <div class="booking-cost">US$67</div>
+      <button class="status-btn s-confirmed" data-id="21" data-cost="67" data-usd="67" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Generator Amsterdam — 5 nights (Jul 14–19)</div><div class="booking-detail">Mauritskade 57, Oost, Amsterdam · 6-bed female dorm · Check-in 14:00–00:00 · Check-out by 10:00</div><div class="conf-detail">✓ Booking.com conf 6301.925.508 · PIN 1467 · Paid €294.03 (US$338) · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">US$338<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">US$68/night</div></div>
+      <button class="status-btn s-confirmed" data-id="22" data-cost="338" data-usd="338" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">The Weeknd — After Hours Til Dawn Tour</div><div class="booking-detail">Fri Jul 17 · 18:50 · Johan Cruijff ArenA, Amsterdam · GA Standing, Compartment V-ST</div><div class="conf-detail">✓ Ticketmaster Order 21273458 · Paid €164.33 (US$177)</div></div>
+      <div class="booking-cost">US$177</div>
+      <button class="status-btn s-confirmed" data-id="37" data-cost="177" data-usd="177" data-cat="activity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- PARIS -->
+  <div class="stop-group">
+    <div class="stop-label">🇫🇷 Paris — Jul 19–26 (7 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Eurostar 9352 — Amsterdam Centraal → Paris Gare du Nord</div><div class="booking-detail">Sun Jul 19 · dep 13:10 Amsterdam Centraal → arr 16:35 Paris Gare du Nord · 3h25min · Coach 7 · Seat 65</div><div class="conf-detail">✓ Eurostar ref DCC3JV · Paid €35.00 (US$38) · Changeable up to 1hr before</div></div>
+      <div class="booking-cost">US$38</div>
+      <button class="status-btn s-confirmed" data-id="24" data-cost="38" data-usd="38" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">The People — Paris Belleville — 7 nights (Jul 19–26)</div><div class="booking-detail">Belleville, Paris · 6-Bed Girls Only Dormitory – Shared Bathroom · Tourist tax €2.60/night payable at hotel</div><div class="conf-detail">✓ Conf 171442 · Paid US$308.09 · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">US$308<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">US$44/night</div></div>
+      <button class="status-btn s-confirmed" data-id="25" data-cost="308" data-usd="308.09" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- WOODBRIDGE -->
+  <div class="stop-group">
+    <div class="stop-label">🇬🇧 Woodbridge — Jul 26 – Aug 31 (37 nights · BASE)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">The Weeknd — Wembley Stadium</div><div class="booking-detail">Aug 14, 15, 16, 18, or 19 — ticket not yet booked · ticketmaster.co.uk</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Optional</span>
+      <button class="status-btn s-pending" data-id="36" data-cost="0" data-cat="activity" onclick="toggleStatus(this)">Pending</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">West End shows</div><div class="booking-detail">officialLondontheatre.com</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Optional</span>
+      <button class="status-btn s-pending" data-id="32" data-cost="0" data-cat="activity" onclick="toggleStatus(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- DUBLIN -->
+  <div class="stop-group">
+    <div class="stop-label">🇮🇪 Dublin — Aug 9–14 (5 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Ryanair FR203 STN → DUB — Aug 9</div><div class="booking-detail">Sun Aug 9 · dep 13:20 London Stansted → arr 14:40 Dublin · conf I43T7D</div><div class="conf-detail">✓ Paid US$119.32 total (both legs) · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">US$119</div>
+      <button class="status-btn s-confirmed" data-id="38" data-cost="119.32" data-usd="119.32" data-cat="flight-eu" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Clink i Lár — 5 nights (Aug 9–14)</div><div class="booking-detail">35 Abbey Street Upper, Dublin 1 · Bed in 4–6 Bed Female Dormitory Room · Check-in from 15:00 · Check-out by 10:00</div><div class="conf-detail">✓ Booking.com conf 5272992156 · PIN 7640 · ~US$213 total · ⚠️ Non-refundable — cancellation fee = full reservation</div></div>
+      <div class="booking-cost">~US$213<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">~US$43/night</div></div>
+      <button class="status-btn s-confirmed" data-id="39a" data-cost="213" data-usd="213" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">GYG Wishlist — Dublin day tours (pick 1–2)</div><div class="booking-detail">📍 Cliffs of Moher, Burren &amp; Galway City (13h, 4.8★, ~$90 🔥) · Kilkenny, Wicklow &amp; Glendalough (10.5h, 4.8★, ~$52) · Wicklow Mountains &amp; Kilkenny (9h, 4.8★, ~$46) · Belfast Titanic &amp; Causeway (14h, 4.7★, ~$92) · getyourguide.com</div></div>
+      <div class="booking-cost"></div>
+      <span class="urgency u-decide">Wishlist</span>
+      <button class="status-btn s-pending" data-id="41" data-cost="0" data-cat="activity" onclick="toggleStatus(this)">Pending</button>
+    </div>
+  </div>
+
+  <!-- GALWAY -->
+  <div class="stop-group">
+    <div class="stop-label">🇮🇪 Galway — Aug 14–17 (3 nights)</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Irish Citylink Service 761 — Dublin → Galway</div><div class="booking-detail">Fri Aug 14 · dep 10:45 Crampton Quay, Dublin · arr 13:15 Galway Coach Station · Ticket 1TK83QW4BJLHT0</div><div class="conf-detail">✓ Booking ID #4625444 · Paid €14.40 (~US$16) · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">~US$16</div>
+      <button class="status-btn s-confirmed" data-id="40" data-cost="16" data-usd="16" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-accommodation"></div>
+      <div style="flex:1"><div class="booking-name">Kinlay Hostel Eyre Square — 3 nights (Aug 14–17)</div><div class="booking-detail">Eyre Square, Galway · Bed in 6-Bed Female Dormitory En Suite · Check-in from 15:00 · Check-out by 11:00</div><div class="conf-detail">✓ Booking.com conf 6098069716 · PIN 1912 · ~US$276 total</div></div>
+      <div class="booking-cost">~US$276<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">~US$92/night</div></div>
+      <button class="status-btn s-confirmed" data-id="39b" data-cost="276" data-usd="0" data-cat="accommodation" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Aran Islands + Cliffs of Moher Tour &amp; Cruise — Sat Aug 15</div><div class="booking-detail">Departs 9:00 AM · 10.5 hours · Meet at Merchants Rd, Eyre Square by 8:40 AM · Provider: Galway Tour Company</div><div class="conf-detail">✓ GYG ref GYG7VKW2MW56 · PIN 9rgGJ=jR · $91.05 · Pay Aug 11 · Cancel before 9:00 AM Aug 13</div></div>
+      <div class="booking-cost">$91.05</div>
+      <button class="status-btn s-confirmed" data-id="42a" data-cost="91" data-usd="91.05" data-cat="activity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-activity"></div>
+      <div style="flex:1"><div class="booking-name">Connemara + Kylemore Abbey Day Tour — Sun Aug 16</div><div class="booking-detail">Departs 9:30 AM · 9 hours · Meet outside Kinlay Hostel, Merchants Rd by 9:15 AM · Provider: Wild Atlantic Way Day Tours</div><div class="conf-detail">✓ GYG ref GYG32L497RWR · PIN Z6/T5D72 · $56.91 · Pay Aug 11 · Cancel before 9:30 AM Aug 14</div></div>
+      <div class="booking-cost">$56.91</div>
+      <button class="status-btn s-confirmed" data-id="42b" data-cost="57" data-usd="56.91" data-cat="activity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-transport"></div>
+      <div style="flex:1"><div class="booking-name">Irish Citylink Service 760 — Galway → Dublin Airport</div><div class="booking-detail">Mon Aug 17 · dep 10:30 Galway Coach Station · arr 13:00 Dublin Airport → Ryanair FR204 15:30 DUB→STN</div><div class="conf-detail">✓ Order #2990769 · Booking ID #4625445 · ⚠️ Non-refundable</div></div>
+      <div class="booking-cost">~US$22</div>
+      <button class="status-btn s-confirmed" data-id="43" data-cost="22" data-usd="22" data-cat="transport" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <!-- Hidden cost-tracking rows for flights (not shown in list but counted in totals) -->
+  <div style="display:none">
+    <div class="booking-row">
+      <div class="booking-name">EZE → MEX → AMS → ARN — Aeroméxico (Jun 30–Jul 2)</div>
+      <button class="status-btn s-confirmed" data-id="3" data-cost="362" data-usd="361.75" data-cat="flight-intl" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="booking-name">Vueling VY 8960 — Paris Orly → London Heathrow (Jul 26)</div>
+      <button class="status-btn s-confirmed" data-id="28" data-cost="143" data-usd="142.51" data-cat="flight-eu" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /tab-leg1 -->
+
+<div id="tab-leg2" style="display:none">
+<div class="leg">
+  <div class="leg-header">
+    <div>
+      <div class="leg-title">🌍 Southern Europe</div>
+      <div class="leg-sub">Sep 1 – Nov 19, 2026 &nbsp;·&nbsp; Switzerland → Italy → Slovenia → Croatia → Montenegro → Bosnia → Albania → Greece</div>
+    </div>
+    <div class="leg-badge">Checklist coming</div>
+  </div>
+  <div class="leg2-grid">
+    <div class="leg2-city"><div class="leg2-city-name">🇨🇭 Geneva</div><div class="leg2-city-dates">Sep 1–3</div><div class="leg2-city-nights">2 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇨🇭 Interlaken</div><div class="leg2-city-dates">Sep 3–6</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇮🇹 Venice</div><div class="leg2-city-dates">Sep 6–9</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇸🇮 Lake Bled</div><div class="leg2-city-dates">Sep 9–12</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city float"><div class="leg2-city-name">🇸🇮 Ljubljana 🌿</div><div class="leg2-city-dates">Sep 12–16</div><div class="leg2-city-nights">4 nights · base</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Plitvice</div><div class="leg2-city-dates">Sep 16–18</div><div class="leg2-city-nights">2 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Split</div><div class="leg2-city-dates">Sep 18–21</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇭🇷 Dubrovnik</div><div class="leg2-city-dates">Sep 21–26</div><div class="leg2-city-nights">5 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇲🇪 Kotor</div><div class="leg2-city-dates">Sep 26–Oct 1</div><div class="leg2-city-nights">5 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇲🇪 Budva</div><div class="leg2-city-dates">Oct 1–4</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇧🇦 Mostar</div><div class="leg2-city-dates">Oct 4–7</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇧🇦 Sarajevo</div><div class="leg2-city-dates">Oct 7–10</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇦🇱 Tirana</div><div class="leg2-city-dates">Oct 10–12</div><div class="leg2-city-nights">2 nights</div></div>
+    <div class="leg2-city float"><div class="leg2-city-name">🇦🇱 Sarandë 🌿</div><div class="leg2-city-dates">Oct 12–19</div><div class="leg2-city-nights">7 nights · base</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Corfu</div><div class="leg2-city-dates">Oct 19–23</div><div class="leg2-city-nights">4 nights</div></div>
+    <div class="leg2-city float"><div class="leg2-city-name">🇬🇷 Athens 🌿</div><div class="leg2-city-dates">Oct 23–29</div><div class="leg2-city-nights">6 nights · base</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Mykonos</div><div class="leg2-city-dates">Oct 29–Nov 1</div><div class="leg2-city-nights">3 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Paros</div><div class="leg2-city-dates">Nov 1–5</div><div class="leg2-city-nights">4 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Naxos</div><div class="leg2-city-dates">Nov 5–9</div><div class="leg2-city-nights">4 nights</div></div>
+    <div class="leg2-city"><div class="leg2-city-name">🇬🇷 Santorini</div><div class="leg2-city-dates">Nov 9–12</div><div class="leg2-city-nights">3 nights ✨</div></div>
+    <div class="leg2-city" style="border-left:3px dashed #d1d5db;opacity:0.6"><div class="leg2-city-name">🗓 Buffer</div><div class="leg2-city-dates">Nov 12–19</div><div class="leg2-city-nights">7 nights free</div></div>
+  </div>
+</div>
+
+<!-- SEPTEMBER CALENDAR -->
+<div class="leg" style="margin:16px 16px 0" id="sep-cal">
+  <div class="leg-header">
+    <div>
+      <div class="leg-title">📅 Trip Calendar — Sep 2026</div>
+      <div class="leg-sub">All bookings at a glance · Holidays flagged in gold</div>
+    </div>
+  </div>
+  <div style="padding:10px 16px 4px;display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#555">
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fef3c7;border:1px solid #fcd34d;border-radius:2px;display:inline-block"></span>Holiday</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;display:inline-block"></span>Travel day</span>
+    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:#fce7f3;border:1px solid #f9a8d4;border-radius:2px;display:inline-block"></span>Optional</span>
+  </div>
+  <div id="trip-calendar-sep" style="padding:4px 16px 16px"></div>
+</div>
+</div><!-- /tab-leg2 -->
+
+<div id="tab-weather" style="display:none">
+<style>
+  .wx-section { margin: 16px; }
+  .wx-section-title { font-size: 12px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; padding-left: 2px; }
+  .wx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+  .wx-card { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
+  .wx-card.hot    { background: #fff7ed; border-color: #fed7aa; }
+  .wx-card.warm   { background: #f0fdf4; border-color: #bbf7d0; }
+  .wx-card.mild   { background: #f0f9ff; border-color: #bae6fd; }
+  .wx-card.cool   { background: #f5f3ff; border-color: #ddd6fe; }
+  .wx-card.rainy  { background: #f8fafc; border-color: #cbd5e1; }
+  .wx-emoji { font-size: 22px; line-height: 1; margin-bottom: 4px; }
+  .wx-city { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+  .wx-dates { font-size: 10px; color: #888; margin-top: 1px; margin-bottom: 8px; }
+  .wx-temps { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+  .wx-temps span { font-size: 11px; font-weight: 400; color: #888; }
+  .wx-rain-stat { font-size: 10px; color: #6b7280; margin-top: 4px; margin-bottom: 6px; }
+  .wx-desc { font-size: 11px; color: #4b5563; line-height: 1.5; }
+  .wx-pack { font-size: 10px; color: #6b7280; margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0,0,0,0.06); }
+  .wx-pack b { color: #374151; }
+  .wx-legend { display: flex; gap: 10px; flex-wrap: wrap; padding: 4px 0 12px; font-size: 11px; color: #6b7280; }
+  .wx-legend-dot { width: 10px; height: 10px; border-radius: 3px; border: 1px solid; display: inline-block; margin-right: 3px; vertical-align: middle; }
+</style>
+
+<div class="wx-section">
+  <div style="padding: 10px 0 4px; font-size: 11px; color: #6b7280;">Historical averages sourced from climate-data.org, weatherspark.com, weather-and-climate.com and timeanddate.com. Rain days = days with &gt;1mm precipitation.</div>
+  <div class="wx-legend">
+    <span><span class="wx-legend-dot" style="background:#fff7ed;border-color:#fed7aa"></span>Hot ≥25°C</span>
+    <span><span class="wx-legend-dot" style="background:#f0fdf4;border-color:#bbf7d0"></span>Warm 20–24°C</span>
+    <span><span class="wx-legend-dot" style="background:#f0f9ff;border-color:#bae6fd"></span>Mild 16–19°C</span>
+    <span><span class="wx-legend-dot" style="background:#f5f3ff;border-color:#ddd6fe"></span>Cool &lt;16°C</span>
+    <span><span class="wx-legend-dot" style="background:#f8fafc;border-color:#cbd5e1"></span>Changeable/rainy</span>
+  </div>
+
+  <div class="wx-section-title">🌍 Leg 1 — Northern Europe</div>
+  <div class="wx-grid">
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇸🇪 Stockholm</div>
+      <div class="wx-dates">Jul 2–5</div>
+      <div class="wx-temps">22°C / 13°C <span>(72°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 65mm/mo</div>
+      <div class="wx-desc">Warm Scandinavian summer with 18+ hrs of daylight. Mostly sunny with occasional showers that pass quickly. One of the nicest times to visit — long bright evenings.</div>
+      <div class="wx-pack"><b>Pack:</b> T-shirts + light jacket for evenings, compact rain jacket.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇳🇴 Oslo</div>
+      <div class="wx-dates">Jul 5–8</div>
+      <div class="wx-temps">22°C / 12°C <span>(72°F / 54°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 7 rain days · 81mm/mo</div>
+      <div class="wx-desc">Very similar to Stockholm. Long bright days, 22°C highs. July can have short rain bursts but they clear fast. Great weather for the fjord and city.</div>
+      <div class="wx-pack"><b>Pack:</b> Same as Stockholm — layers + light rain jacket.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇩🇰 Copenhagen</div>
+      <div class="wx-dates">Jul 8–12</div>
+      <div class="wx-temps">22°C / 14°C <span>(72°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 65mm/mo</div>
+      <div class="wx-desc">Warm and sunny but July is actually Copenhagen's rainiest month — expect a shower or two. Nothing heavy, just classic northern European 'it might rain later'. Evenings are long and lovely.</div>
+      <div class="wx-pack"><b>Pack:</b> Light clothes + rain jacket. Layers for evenings.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇩🇪 Hamburg</div>
+      <div class="wx-dates">Jul 12–14</div>
+      <div class="wx-temps">23°C / 14°C <span>(73°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 11 rain days · 75mm/mo</div>
+      <div class="wx-desc">Warm and pleasant. Can get humid. Hamburg has a reputation for rain year-round but July is one of the better months. Afternoons can be muggy.</div>
+      <div class="wx-pack"><b>Pack:</b> Breathable layers, rain jacket.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇳🇱 Amsterdam</div>
+      <div class="wx-dates">Jul 14–19</div>
+      <div class="wx-temps">23°C / 14°C <span>(73°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 11 rain days · 82mm/mo</div>
+      <div class="wx-desc">Peak summer, warm and bright. Can have afternoon thunderstorms that blow over fast. The canals look incredible in summer light. Jul 17 Weeknd concert should be warm.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes, light jacket, small umbrella.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">☀️</div>
+      <div class="wx-city">🇫🇷 Paris</div>
+      <div class="wx-dates">Jul 19–26</div>
+      <div class="wx-temps">25°C / 15°C <span>(77°F / 59°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 11 rain days · 21mm/mo</div>
+      <div class="wx-desc">Late July is one of Paris's hottest stretches. Only 21mm of rain — the driest of all your cities. Heatwaves (35°C+) have become more common. Evenings are warm and golden.</div>
+      <div class="wx-pack"><b>Pack:</b> Light summer clothes, sunscreen, sunglasses. One thin layer for air-conditioned museums.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇬🇧 Woodbridge</div>
+      <div class="wx-dates">Jul 26–Sep 1</div>
+      <div class="wx-temps">22°C / 15°C <span>(72°F / 59°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 13 rain days · 60mm/mo</div>
+      <div class="wx-desc">British summer — can be glorious or grey, sometimes both in a day. August is drier than July. Suffolk coast gets a nice sea breeze. Sunny spells are lovely; don't expect Mediterranean heat.</div>
+      <div class="wx-pack"><b>Pack:</b> Light layers, always have a rain jacket. Light hoodie for evenings.</div>
+    </div>
+
+    <div class="wx-card rainy">
+      <div class="wx-emoji">🌦️</div>
+      <div class="wx-city">🇮🇪 Dublin</div>
+      <div class="wx-dates">Aug 9–14</div>
+      <div class="wx-temps">20°C / 13°C <span>(68°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 16 rain days · 81mm/mo</div>
+      <div class="wx-desc">Cool and frequently showery — Ireland is green for a reason. August is one of the drier months relatively, but 16 rain days is still a lot. Showers tend to be short. Sunny Irish days are stunning.</div>
+      <div class="wx-pack"><b>Pack:</b> Waterproof jacket is essential. Layers. No sandals — wet cobblestones.</div>
+    </div>
+
+    <div class="wx-card rainy">
+      <div class="wx-emoji">🌧️</div>
+      <div class="wx-city">🇮🇪 Galway</div>
+      <div class="wx-dates">Aug 14–17</div>
+      <div class="wx-temps">19°C / 12°C <span>(66°F / 54°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 17 rain days · 108mm/mo</div>
+      <div class="wx-desc">The west coast is windier and wetter than Dublin — 108mm in August vs Dublin's 81mm. Atlantic weather rolls in off the ocean. Expect sun, clouds, showers, then sun again. The Cliffs of Moher in mist are dramatic.</div>
+      <div class="wx-pack"><b>Pack:</b> Waterproof everything. Wind jacket. Waterproof shoes for the cliffs.</div>
+    </div>
+
+  </div>
+
+  <div class="wx-section-title" style="margin-top:20px">🌍 Leg 2 — Southern Europe</div>
+  <div class="wx-grid">
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇨🇭 Geneva</div>
+      <div class="wx-dates">Sep 1–3</div>
+      <div class="wx-temps">21°C / 11°C <span>(70°F / 52°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 8 rain days · 100mm/mo</div>
+      <div class="wx-desc">Late summer warmth, mostly sunny. Lake Geneva glitters. September brings occasional afternoon storms that pass fast. 100mm total but only 8 rain days — they're heavy when they come.</div>
+      <div class="wx-pack"><b>Pack:</b> Light summer clothes + jacket for evenings.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇨🇭 Interlaken</div>
+      <div class="wx-dates">Sep 3–6</div>
+      <div class="wx-temps">18°C / 9°C <span>(64°F / 48°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 17 rain days · 53mm/mo</div>
+      <div class="wx-desc">Alpine — daytime is warm, mornings and evenings are crisp (9°C lows). Mountains catch cloud so conditions shift quickly. High rain days but lower total precipitation than you'd expect. Spectacular setting.</div>
+      <div class="wx-pack"><b>Pack:</b> Layers essential. Warm fleece for evenings. Waterproof jacket.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">☀️</div>
+      <div class="wx-city">🇮🇹 Venice</div>
+      <div class="wx-dates">Sep 6–9</div>
+      <div class="wx-temps">24°C / 14°C <span>(75°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 6 rain days · 72mm/mo</div>
+      <div class="wx-desc">Still full summer warmth at 24°C. Only 6 rain days — much drier than August. Crowds thinning fast. One of the best times to visit Venice. Evenings are warm and golden.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes. Comfortable shoes — a lot of walking on uneven stone.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇸🇮 Lake Bled</div>
+      <div class="wx-dates">Sep 9–12</div>
+      <div class="wx-temps">19°C / 10°C <span>(66°F / 50°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 14 rain days · 120mm/mo</div>
+      <div class="wx-desc">Autumn colours starting. Mornings are crisp and misty on the lake — absolutely stunning. Afternoons warm up to 19°C. Getting quieter. 14 rain days but the mist adds atmosphere.</div>
+      <div class="wx-pack"><b>Pack:</b> Layers, warm layer for mornings and evenings.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇸🇮 Ljubljana</div>
+      <div class="wx-dates">Sep 12–16</div>
+      <div class="wx-temps">21°C / 12°C <span>(70°F / 54°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 15 rain days · 140mm/mo</div>
+      <div class="wx-desc">September is Ljubljana's second rainiest month (140mm) so pack accordingly. But at 21°C highs it's warm enough for t-shirts during the day. The old town cafe scene is excellent whatever the weather.</div>
+      <div class="wx-pack"><b>Pack:</b> Light layers, rain jacket — Ljubljana gets genuinely wet in September.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇭🇷 Plitvice</div>
+      <div class="wx-dates">Sep 16–18</div>
+      <div class="wx-temps">22°C / 11°C <span>(72°F / 52°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 10 rain days · 120mm/mo</div>
+      <div class="wx-desc">Early autumn in the national park — waterfalls are full, early leaf colour, crowds much thinner than summer. 22°C highs but 10 rain days mean pack for it. Crisp and fresh air.</div>
+      <div class="wx-pack"><b>Pack:</b> Layers, rain jacket, comfortable hiking/waterproof shoes.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">☀️</div>
+      <div class="wx-city">🇭🇷 Split</div>
+      <div class="wx-dates">Sep 18–21</div>
+      <div class="wx-temps">25°C / 18°C <span>(77°F / 64°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 6 rain days · 80mm/mo</div>
+      <div class="wx-desc">Full Mediterranean summer at 25°C with only 5–6 rain days. Sea is at its warmest. August crowds are gone. One of the best times on the Adriatic coast.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes, swimwear — sea is perfectly warm.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">☀️</div>
+      <div class="wx-city">🇭🇷 Dubrovnik</div>
+      <div class="wx-dates">Sep 21–26</div>
+      <div class="wx-temps">24°C / 18°C <span>(75°F / 64°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 139mm/mo</div>
+      <div class="wx-desc">24°C and mostly sunny, though September sees 139mm of rain (it falls hard when it comes). 9 rain days means odds are you'll see one shower. The old town walls in golden autumn light are incredible.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes + light jacket. One rain layer just in case.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇲🇪 Kotor</div>
+      <div class="wx-dates">Sep 26–Oct 1</div>
+      <div class="wx-temps">24°C / 14°C <span>(75°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 8 rain days · 104mm/mo</div>
+      <div class="wx-desc">Still warm at 24°C transitioning into October. The bay is beautiful. 8 rain days with 104mm — Kotor is one of the rainiest spots in Europe annually, though September is better than winter.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes + light jacket. A rain layer.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇲🇪 Budva</div>
+      <div class="wx-dates">Oct 1–4</div>
+      <div class="wx-temps">19°C / 13°C <span>(66°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 10 rain days · 120mm/mo</div>
+      <div class="wx-desc">Early October on the Adriatic — warm at 19°C, sea still swimmable. Noticeably quieter than summer. Some chance of rain picking up.</div>
+      <div class="wx-pack"><b>Pack:</b> Light layers, jacket for evenings.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">🌥️</div>
+      <div class="wx-city">🇧🇦 Mostar</div>
+      <div class="wx-dates">Oct 4–7</div>
+      <div class="wx-temps">18°C / 8°C <span>(64°F / 46°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 11 rain days · 184mm/mo</div>
+      <div class="wx-desc">Autumn arriving properly. 18°C highs but only 8°C at night. October is Mostar's wettest month at 184mm — the highest of any stop on your trip. The Stari Most bridge in autumn light is still beautiful.</div>
+      <div class="wx-pack"><b>Pack:</b> Warm jacket, layers, waterproof essential. Umbrella.</div>
+    </div>
+
+    <div class="wx-card cool">
+      <div class="wx-emoji">🌥️</div>
+      <div class="wx-city">🇧🇦 Sarajevo</div>
+      <div class="wx-dates">Oct 7–10</div>
+      <div class="wx-temps">16°C / 7°C <span>(61°F / 45°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 10 rain days · 75mm/mo</div>
+      <div class="wx-desc">Getting properly cool — 16°C highs, 7°C at night. Inland and at higher elevation. Can be grey and misty. The city has a melancholic autumn vibe that genuinely suits it.</div>
+      <div class="wx-pack"><b>Pack:</b> Warm jacket, layers, something for rain.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇦🇱 Tirana</div>
+      <div class="wx-dates">Oct 10–12</div>
+      <div class="wx-temps">21°C / 12°C <span>(70°F / 54°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 7 rain days · 105mm/mo</div>
+      <div class="wx-desc">Back to mild and pleasant at 21°C. October in Albania is lovely — warm enough to enjoy outdoors, quiet. More sun than the Balkan interior you just came from.</div>
+      <div class="wx-pack"><b>Pack:</b> Light jacket, layers.</div>
+    </div>
+
+    <div class="wx-card warm">
+      <div class="wx-emoji">🌤️</div>
+      <div class="wx-city">🇦🇱 Sarandë</div>
+      <div class="wx-dates">Oct 12–19</div>
+      <div class="wx-temps">22°C / 11°C <span>(72°F / 52°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 125mm/mo</div>
+      <div class="wx-desc">The Albanian Riviera in October — 22°C, quiet, gorgeous. Sea still swimmable (just). 9 rain days with 125mm but plenty of sunny days between. One of the best-value sun destinations at this time of year.</div>
+      <div class="wx-pack"><b>Pack:</b> Summer clothes + light jacket for evenings.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇬🇷 Corfu</div>
+      <div class="wx-dates">Oct 19–23</div>
+      <div class="wx-temps">24°C / 14°C <span>(75°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 10 rain days · 180mm/mo</div>
+      <div class="wx-desc">Warmer than you'd expect at 24°C — Corfu stays Mediterranean late into autumn. But October is when the rain starts picking up (180mm). Sunny spells between showers. Very quiet.</div>
+      <div class="wx-pack"><b>Pack:</b> Light layers, rain jacket. Still warm enough for lunch outside.</div>
+    </div>
+
+    <div class="wx-card hot">
+      <div class="wx-emoji">☀️</div>
+      <div class="wx-city">🇬🇷 Athens</div>
+      <div class="wx-dates">Oct 23–29</div>
+      <div class="wx-temps">24°C / 16°C <span>(75°F / 61°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 6 rain days · 50mm/mo</div>
+      <div class="wx-desc">One of the best times to visit Athens. 24°C, only 6 rain days, 50mm total. Warm enough for t-shirts, cool enough to walk the Acropolis comfortably without sweating. Low crowds, golden light.</div>
+      <div class="wx-pack"><b>Pack:</b> Light layers, comfortable shoes for the ruins.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇬🇷 Mykonos</div>
+      <div class="wx-dates">Oct 29–Nov 1</div>
+      <div class="wx-temps">18°C / 14°C <span>(64°F / 57°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 8 rain days · 70mm/mo</div>
+      <div class="wx-desc">Late October into November — 18°C highs, breezy (Aegean winds pick up). Moody and quiet. Many places start closing for the season. Very different from summer Mykonos.</div>
+      <div class="wx-pack"><b>Pack:</b> Jacket, layers. Check what's open in advance.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇬🇷 Paros</div>
+      <div class="wx-dates">Nov 1–5</div>
+      <div class="wx-temps">18°C / 13°C <span>(64°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 80mm/mo</div>
+      <div class="wx-desc">Off-season quiet at 18°C. Can have overcast days and showers but sunny days are still common in early November. Almost entirely to yourself.</div>
+      <div class="wx-pack"><b>Pack:</b> Layers, rain jacket.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">⛅</div>
+      <div class="wx-city">🇬🇷 Naxos</div>
+      <div class="wx-dates">Nov 5–9</div>
+      <div class="wx-temps">18°C / 13°C <span>(64°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 9 rain days · 80mm/mo</div>
+      <div class="wx-desc">Same as Paros — Naxos has better off-season infrastructure than most Cyclades islands. Village life fully intact, quiet beaches.</div>
+      <div class="wx-pack"><b>Pack:</b> Layers, rain jacket.</div>
+    </div>
+
+    <div class="wx-card mild">
+      <div class="wx-emoji">🌥️</div>
+      <div class="wx-city">🇬🇷 Santorini ✨</div>
+      <div class="wx-dates">Nov 9–12</div>
+      <div class="wx-temps">19°C / 13°C <span>(66°F / 55°F) hi/lo</span></div>
+      <div class="wx-rain-stat">🌧 avg 8 rain days · 70mm/mo</div>
+      <div class="wx-desc">November Santorini is moody and magical — 19°C, dramatic cloud over the caldera, virtually zero tourists. Sunsets are yours alone. Some rain but plenty of clear days. Beautiful in a completely different way from summer.</div>
+      <div class="wx-pack"><b>Pack:</b> Warm layers, rain jacket. Check which restaurants are open.</div>
+    </div>
+
+  </div>
+</div>
+</div><!-- /tab-weather -->
+
+<div id="tab-wc" style="display:none">
+<style>
+  .wc2-wrap { padding: 16px 16px 20px; }
+  .wc2-title { font-size: 17px; font-weight: 800; color: #1a1a1a; margin-bottom: 2px; }
+  .wc2-sub { font-size: 11px; color: #9ca3af; margin-bottom: 14px; }
+  .wc2-confirmed { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+  .wc2-confirmed-label { font-size: 10px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .wc2-confirmed-match { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+  .wc2-confirmed-sub { font-size: 12px; color: #4b5563; margin-top: 3px; }
+  .wc2-section { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .wc2-section-head { padding: 10px 14px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+  .wc2-section-name { font-size: 12px; font-weight: 700; color: #111; }
+  .wc2-section-note { font-size: 10px; color: #9ca3af; }
+  .wc2-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 700; background: #f3f4f6; color: #6b7280; }
+  .wc2-row { display: grid; grid-template-columns: 110px 1fr auto; align-items: center; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; gap: 10px; }
+  .wc2-row:last-child { border-bottom: none; }
+  .wc2-row.travel { background: #fffbeb; }
+  .wc2-date { font-size: 12px; font-weight: 700; color: #374151; }
+  .wc2-date-day { font-size: 10px; color: #9ca3af; margin-top: 1px; }
+  .wc2-times { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+  .wc2-or { font-size: 10px; color: #9ca3af; font-weight: 400; margin: 0 4px; }
+  .wc2-late { color: #dc2626; }
+  .wc2-city { font-size: 12px; color: #6b7280; text-align: right; white-space: nowrap; }
+  .wc2-travel-tag { font-size: 9px; background: #fef3c7; color: #92400e; padding: 1px 5px; border-radius: 5px; font-weight: 700; display: inline-block; margin-top: 2px; }
+  .wc2-final-row { background: #fff7ed; }
+</style>
+
+<div class="wc2-wrap">
+  <div class="wc2-title">🇦🇷 Argentina · World Cup 2026</div>
+  <div class="wc2-sub">All times in your local time (CEST). Argentina plays ONE match per round.</div>
+
+  <div class="wc2-confirmed">
+    <div class="wc2-confirmed-label">✓ Confirmed match</div>
+    <div class="wc2-confirmed-match">Fri Jul 4 · midnight (00:00)</div>
+    <div class="wc2-confirmed-sub">Round of 32 · 🇸🇪 Stockholm · Find a bar open late!</div>
+  </div>
+
+  <!-- ROUND OF 16 -->
+  <div class="wc2-section">
+    <div class="wc2-section-head">
+      <div>
+        <div class="wc2-section-name">Round of 16</div>
+        <div class="wc2-section-note">Argentina plays on ONE of these days — unknown until group stage ends</div>
+      </div>
+      <span class="wc2-badge">🔒 If qualified</span>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Sat Jul 4</div><div class="wc2-date-day">Stockholm 🇸🇪</div></div>
+      <div class="wc2-times">7:00pm <span class="wc2-or">or</span> 11:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+    <div class="wc2-row travel">
+      <div><div class="wc2-date">Sun Jul 5</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
+      <div class="wc2-times">10:00pm <span class="wc2-or">or</span> <span class="wc2-late">2:00am</span></div>
+      <div class="wc2-city"><span class="wc2-travel-tag">⚡ travel day</span></div>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Mon Jul 6</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
+      <div class="wc2-times">9:00pm <span class="wc2-or">or</span> <span class="wc2-late">2:00am</span></div>
+      <div class="wc2-city"></div>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Tue Jul 7</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
+      <div class="wc2-times">6:00pm <span class="wc2-or">or</span> 10:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+  </div>
+
+  <!-- QUARTERFINALS -->
+  <div class="wc2-section">
+    <div class="wc2-section-head">
+      <div>
+        <div class="wc2-section-name">Quarterfinals</div>
+        <div class="wc2-section-note">Argentina plays on ONE of these days</div>
+      </div>
+      <span class="wc2-badge">🔒 If qualified</span>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Wed Jul 9</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
+      <div class="wc2-times">10:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Thu Jul 10</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
+      <div class="wc2-times">9:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Fri Jul 11</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
+      <div class="wc2-times">11:00pm <span class="wc2-or">or</span> <span class="wc2-late">3:00am</span></div>
+      <div class="wc2-city"></div>
+    </div>
+  </div>
+
+  <!-- SEMIFINALS -->
+  <div class="wc2-section">
+    <div class="wc2-section-head">
+      <div>
+        <div class="wc2-section-name">Semifinals</div>
+        <div class="wc2-section-note">Argentina plays on ONE of these days</div>
+      </div>
+      <span class="wc2-badge">🔒 If qualified</span>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Mon Jul 14</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
+      <div class="wc2-times">9:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Tue Jul 15</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
+      <div class="wc2-times">9:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+  </div>
+
+  <!-- 3RD PLACE -->
+  <div class="wc2-section">
+    <div class="wc2-section-head">
+      <div><div class="wc2-section-name">3rd Place</div></div>
+      <span class="wc2-badge">🔒 If qualified</span>
+    </div>
+    <div class="wc2-row">
+      <div><div class="wc2-date">Fri Jul 18</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
+      <div class="wc2-times">11:00pm</div>
+      <div class="wc2-city"></div>
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="wc2-section">
+    <div class="wc2-section-head" style="background:#fff7ed;border-color:#fcd34d;">
+      <div>
+        <div class="wc2-section-name" style="color:#92400e;">⭐ Final</div>
+        <div class="wc2-section-note" style="color:#b45309;">Eurostar arrives Paris at 16:35 — settled well before kickoff 🇦🇷</div>
+      </div>
+      <span class="wc2-badge">🔒 If qualified</span>
+    </div>
+    <div class="wc2-row wc2-final-row">
+      <div><div class="wc2-date">Sat Jul 19</div><div class="wc2-date-day">Paris 🇫🇷</div></div>
+      <div class="wc2-times">9:00pm</div>
+      <div class="wc2-city" style="font-size:11px;color:#92400e;">arr 16:35 ✓</div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /tab-wc -->
+
+<div class="footer">Last updated: Jun 21, 2026</div>
+
+<script>
+  // Global state
+  let catItemsData = {};
+  let activeCatPanel = null;
+
+  function toggleStatus(btn) {
+    const current = btn.classList.contains('s-pending') ? 'pending' : btn.classList.contains('s-confirmed') ? 'confirmed' : 'na';
+    if (current === 'na') return;
+    if (current === 'pending') { btn.className = 'status-btn s-confirmed'; btn.textContent = 'Confirmed ✓'; }
+    else { btn.className = 'status-btn s-pending'; btn.textContent = 'Pending'; }
+    updateStats();
+  }
+
+  function updateStats() {
+    const allBtns = document.querySelectorAll('.status-btn');
+    let confirmed = 0, pending = 0, usdSpent = 0;
+    const cats = { 'flight-intl': 0, 'flight-eu': 0, transport: 0, accommodation: 0, activity: 0, connectivity: 0 };
+    const catItems = { 'flight-intl': [], 'flight-eu': [], transport: [], accommodation: [], activity: [], connectivity: [] };
+
+    allBtns.forEach(btn => {
+      const cost = parseFloat(btn.dataset.cost) || 0;
+      const cat = btn.dataset.cat || '';
+      const row = btn.closest('.booking-row');
+      const name = row ? (row.querySelector('.booking-name') || {}).textContent || '' : '';
+      if (btn.classList.contains('s-confirmed')) {
+        confirmed++;
+        usdSpent += parseFloat(btn.dataset.usd) || 0;
+        if (cats[cat] !== undefined) cats[cat] += cost;
+        if (catItems[cat]) catItems[cat].push({ name: name.trim(), cost });
+      } else if (btn.classList.contains('s-pending')) { pending++; }
+    });
+
+    catItemsData = catItems;
+
+    const total = confirmed + pending;
+    const pct = total > 0 ? Math.round((confirmed / total) * 100) : 0;
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-counts').textContent = confirmed + ' / ' + total + ' confirmed';
+    document.getElementById('stat-confirmed').textContent = confirmed;
+    document.getElementById('stat-pending').textContent = pending;
+    document.getElementById('stat-usd-spent').textContent = 'US$' + usdSpent.toFixed(0);
+    document.getElementById('leg1-badge').textContent = confirmed + ' / ' + total;
+
+    // "Paid so far" sub-label
+    // Leg 1 = 61 days, but 29 nights are free in Woodbridge (37 total - 8 in Dublin/Galway)
+    // Active paid days = 61 - 29 = 32
+    const paidDays = 32;
+    const perDay = usdSpent > 0 ? Math.round(usdSpent / paidDays) : 0;
+    const subEl = document.getElementById('stat-paid-sub');
+    if (subEl) subEl.textContent = '32 active days (excl. 29 free in Woodbridge) · US$' + perDay + '/day';
+
+    const fmt = v => 'US$' + v.toFixed(0);
+    document.getElementById('cat-flight-intl').textContent = fmt(cats['flight-intl']);
+    document.getElementById('cat-flight-eu').textContent = fmt(cats['flight-eu']);
+    document.getElementById('cat-transport').textContent = fmt(cats.transport);
+    document.getElementById('cat-accommodation').textContent = fmt(cats.accommodation);
+    document.getElementById('cat-activity').textContent = fmt(cats.activity);
+    document.getElementById('cat-connectivity').textContent = fmt(cats.connectivity);
+
+    // Refresh open panels
+    if (activeCatPanel) _renderCatPanel(activeCatPanel);
+    buildCityChips();
+  }
+
+  // ---- Category detail panel ----
+  function toggleCatPanel(catKey) {
+    if (activeCatPanel === catKey) {
+      closeCatPanel();
+    } else {
+      activeCatPanel = catKey;
+      _renderCatPanel(catKey);
+      // Highlight chip
+      document.querySelectorAll('.spend-cat').forEach(c => {
+        c.classList.toggle('active', c.dataset.catkey === catKey);
+      });
+    }
+  }
+
+  function closeCatPanel() {
+    activeCatPanel = null;
+    const p = document.getElementById('cat-detail-panel');
+    if (p) p.style.display = 'none';
+    document.querySelectorAll('.spend-cat').forEach(c => c.classList.remove('active'));
+  }
+
+  const catLabels = { 'flight-intl': '✈ International flight', 'flight-eu': '✈ EU flights', transport: '🚂 Trains & buses', accommodation: '🏨 Accommodation', activity: '🎭 Activities', connectivity: '📱 Connectivity' };
+
+  function _renderCatPanel(catKey) {
+    const panel = document.getElementById('cat-detail-panel');
+    if (!panel) return;
+    const items = catItemsData[catKey] || [];
+    let html = '<div class="cat-ph"><span>' + (catLabels[catKey] || catKey) + '</span><button onclick="closeCatPanel()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#6b7280;padding:0">✕</button></div>';
+    if (!items.length) {
+      html += '<div style="padding:10px 12px;font-size:12px;color:#9ca3af">No confirmed items in this category yet.</div>';
+    } else {
+      items.forEach(item => {
+        if (!item.name) return;
+        html += '<div class="cat-pi"><span class="cat-pn">' + item.name + '</span><span class="cat-pc">US$' + item.cost.toFixed(0) + '</span></div>';
+      });
+      const total = items.reduce((s, i) => s + i.cost, 0);
+      html += '<div class="cat-pt">Total confirmed: US$' + total.toFixed(0) + '</div>';
+    }
+    panel.innerHTML = html;
+    panel.style.display = '';
+  }
+
+  // ---- Per-city breakdown ----
+  let cityDataCache = [];
+  let activeCityPanel = null;
+
+  function buildCityChips() {
+    const rows = [];
+    document.querySelectorAll('#leg1 .stop-group').forEach(function(group) {
+      const labelEl = group.querySelector('.stop-label');
+      if (!labelEl) return;
+      const labelText = labelEl.textContent.trim();
+      // Only show city stays (those with "nights") — skip transit legs
+      const nightsMatch = labelText.match(/(\d+)\s+night/);
+      const nights = nightsMatch ? parseInt(nightsMatch[1]) : 0;
+      if (nights === 0) return; // skip transit stop-groups
+      let groupTotal = 0, hasConf = false;
+      const items = [];
+      group.querySelectorAll('.status-btn').forEach(function(btn) {
+        if (btn.classList.contains('s-confirmed')) {
+          const cost = parseFloat(btn.dataset.cost) || 0;
+          groupTotal += cost;
+          hasConf = true;
+          const row = btn.closest('.booking-row');
+          const name = row ? (row.querySelector('.booking-name') || {}).textContent || '' : '';
+          items.push({ name: name.trim(), cost });
+        }
+      });
+      if (hasConf) rows.push({ label: labelText, nights, total: groupTotal, items });
+    });
+    cityDataCache = rows;
+
+    const container = document.getElementById('city-chips-row');
+    if (!container) return;
+    let html = '';
+    rows.forEach(function(row, idx) {
+      // Extract just the city name + flag from the label
+      const cityMatch = row.label.match(/^(.+?)\s+—/);
+      const shortLabel = cityMatch ? cityMatch[1].trim() : row.label;
+      const perNight = ' · US$' + Math.round(row.total/row.nights) + '/night';
+      html += '<div class="spend-cat" data-cityidx="' + idx + '" onclick="toggleCityPanel(' + idx + ')">'
+            + '<span class="spend-cat-label">' + shortLabel + '</span>&ensp;<span class="spend-cat-val">US$' + row.total.toFixed(0) + '</span>'
+            + ' <span class="spend-cat-arrow">▾</span></div>';
+    });
+    container.innerHTML = html;
+    if (activeCityPanel !== null) {
+      const chip = container.querySelector('[data-cityidx="' + activeCityPanel + '"]');
+      if (chip) chip.classList.add('active');
+    }
+  }
+
+  function toggleCityPanel(idx) {
+    if (activeCityPanel === idx) {
+      closeCityPanel();
+    } else {
+      activeCityPanel = idx;
+      _renderCityPanel(idx);
+      document.querySelectorAll('#city-chips-row .spend-cat').forEach(function(c) {
+        c.classList.toggle('active', parseInt(c.dataset.cityidx) === idx);
+      });
+    }
+  }
+
+  function closeCityPanel() {
+    activeCityPanel = null;
+    const p = document.getElementById('city-detail-panel');
+    if (p) p.style.display = 'none';
+    document.querySelectorAll('#city-chips-row .spend-cat').forEach(function(c) { c.classList.remove('active'); });
+  }
+
+  function _renderCityPanel(idx) {
+    const panel = document.getElementById('city-detail-panel');
+    if (!panel) return;
+    const row = cityDataCache[idx];
+    if (!row) return;
+    const perNight = 'US$' + Math.round(row.total/row.nights) + '/night · ' + row.nights + ' nights';
+    let html = '<div class="cat-ph"><span>' + row.label + '</span><button onclick="closeCityPanel()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#6b7280;padding:0">✕</button></div>';
+    row.items.forEach(function(item) {
+      if (!item.name) return;
+      html += '<div class="cat-pi"><span class="cat-pn">' + item.name + '</span><span class="cat-pc">US$' + item.cost.toFixed(0) + '</span></div>';
+    });
+    html += '<div class="cat-pt">US$' + row.total.toFixed(0) + ' total · ' + perNight + '</div>';
+    panel.innerHTML = html;
+    panel.style.display = '';
+  }
+
+  updateStats();
+
+  function showTab(tab) {
+    document.getElementById('tab-leg1').style.display = tab === 'leg1' ? '' : 'none';
+    document.getElementById('tab-leg2').style.display = tab === 'leg2' ? '' : 'none';
+    document.getElementById('tab-weather').style.display = tab === 'weather' ? '' : 'none';
+    document.getElementById('tab-wc').style.display = tab === 'wc' ? '' : 'none';
+    document.getElementById('tab-btn-leg1').classList.toggle('active', tab === 'leg1');
+    document.getElementById('tab-btn-leg2').classList.toggle('active', tab === 'leg2');
+    document.getElementById('tab-btn-weather').classList.toggle('active', tab === 'weather');
+    document.getElementById('tab-btn-wc').classList.toggle('active', tab === 'wc');
+  }
+</script>
+</body>
+</html>
