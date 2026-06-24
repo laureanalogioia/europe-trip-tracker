@@ -110,6 +110,63 @@
   .cat-pc { color:#111827; font-weight:700; white-space:nowrap; }
   .cat-pt { padding:6px 12px; font-size:11px; font-weight:700; color:#374151; background:#f1f5f9; text-align:right; border-top:1px solid #e5e7eb; }
 
+
+  /* ── Mobile responsive ── */
+  @media (max-width: 640px) {
+
+    /* Calendar: reduce outer padding so all 7 cols fit on screen */
+    #trip-calendar, #trip-calendar-leg2 { padding: 2px 2px 12px !important; }
+    .cal-cell { padding: 2px 2px; min-height: 40px; }
+    .cal-day-num { font-size: 9px; }
+    .cal-flag { font-size: 8px; }
+    .cal-loc { font-size: 6.5px; }
+    .cal-dep { font-size: 6px; }
+    .cal-note { font-size: 6px; }
+    .cal-badge, .cal-badge-vac { font-size: 6px; padding: 1px 2px; }
+
+    /* Header */
+    .header { padding: 12px 12px 10px; }
+    .header h1 { font-size: 15px; }
+    .header-meta { gap: 10px; margin-top: 10px; }
+    .meta-item { font-size: 11px; }
+
+    /* Tabs */
+    .tab-btn { font-size: 11px; padding: 8px 8px; }
+
+    /* Stop label */
+    .stop-label { padding: 7px 12px 3px; }
+
+    /* Local transfer */
+    .local-xfer { padding: 6px 12px; font-size: 10px; }
+
+    /* Booking rows: stack vertically */
+    .booking-row { flex-wrap: wrap; padding: 9px 12px; gap: 6px; align-items: flex-start; }
+
+    /* Info div takes full first line (beside the dot) */
+    .booking-row > div[style*="flex:1"] {
+      flex: 0 0 calc(100% - 20px);
+      min-width: 0;
+    }
+
+    /* Right-side elements wrap to second line, right-aligned */
+    .booking-row > button[title="Copy reference"],
+    .booking-row > div[style*="width:190px"] {
+      width: auto !important;
+      flex: 1;
+      font-size: 10px;
+    }
+    .booking-cost { width: auto !important; flex-shrink: 0; }
+    .status-btn { min-width: 0 !important; font-size: 10px; }
+    .urgency { min-width: 0 !important; font-size: 9px; }
+
+    /* Hide invisible placeholders on mobile (not needed when stacked) */
+    .booking-row > span.urgency[style*="visibility:hidden"] { display: none; }
+    .booking-row > div[style*="width:190px"][style*="flex-shrink:0"] { display: none; }
+
+    /* Spending panel */
+    .spend-bar { padding: 10px 12px; }
+    .spend-cats { gap: 6px; }
+  }
 </style>
 </head>
 <body>
