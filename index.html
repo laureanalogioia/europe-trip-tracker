@@ -394,9 +394,11 @@
       h += '<div style="text-align:center;font-size:9px;font-weight:600;color:#9ca3af;padding:2px 0;font-size:clamp(7px,1.8vw,9px)">' + d + '</div>';
     });
 
-    // Blank cells: leading empty days + days before fromDay
-    const blanksBefore = startDow + (fromDay - 1);
-    for (let i = 0; i < blanksBefore; i++) {
+    // Blank cells: only the leading days of the week that fromDay falls on
+    const fromDate = new Date(y, m-1, fromDay);
+    let fromDow = fromDate.getDay();
+    fromDow = fromDow === 0 ? 6 : fromDow - 1;
+    for (let i = 0; i < fromDow; i++) {
       h += '<div class="cal-cell" style="background:#fafafa"></div>';
     }
 
