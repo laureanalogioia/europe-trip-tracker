@@ -538,6 +538,18 @@
 
   <!-- STOCKHOLM -->
   <div class="stop-group">
+    <div class="stop-label">✈️ OUTBOUND FLIGHT — Jun 30 – Jul 2</div>
+    <div class="booking-row">
+      <div class="cat-dot cat-flight-intl"></div>
+      <div style="flex:1"><div class="booking-name">Aeroméxico AM29 · AM25 · AM7800 — EZE → MEX → AMS → ARN</div><div class="booking-detail">Tue Jun 30 23:25 EZE (Ezeiza) → Wed Jul 1 06:10 MEX · AM29 · 9h45m · 16h15m layover in Mexico City · Wed Jul 1 22:25 MEX → Thu Jul 2 17:20 AMS · AM25 · 10h55m · 1h40m layover in Amsterdam · Thu Jul 2 19:00 AMS → Thu Jul 2 21:00 ARN (Arlanda) · AM7800 · 2h · Economy · 1 checked bag included</div><div class="conf-detail">✓ TurismoCity ref 105483346900 · PNR KPOMBU · eTicket 1394859795896 · Paid US$362 · ⚠️ Non-refundable · Change fee US$515</div></div>
+      <button onclick="event.stopPropagation();navigator.clipboard.writeText('TurismoCity #105483346900').then(()=>{var t=this;t.style.background='#dcfce7';t.style.borderColor='#86efac';t.style.color='#16a34a';setTimeout(()=>{t.style.background='';t.style.borderColor='';t.style.color='';},1000)})" title="Copy reference" style="font-size:10px;padding:3px 8px;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0;cursor:pointer;color:#475569;white-space:nowrap;flex-shrink:0;transition:all 0.2s;width:190px;overflow:hidden;text-overflow:ellipsis;">TurismoCity #105483346900</button>
+      <div class="booking-cost">US$362<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">intl flight</div></div>
+      <span class="urgency" style="visibility:hidden;pointer-events:none;min-width:70px;">·</span>
+      <button class="status-btn s-confirmed" data-id="3" data-cost="362" data-usd="361.75" data-cat="flight-intl" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+  </div>
+
+  <div class="stop-group">
     <div class="stop-label">🇸🇪 Stockholm — Jul 2–5 (3 nights)</div>
 
     <div class="local-xfer">
@@ -799,10 +811,7 @@
 
   <!-- Hidden cost-tracking rows for flights (not shown in list but counted in totals) -->
   <div style="display:none">
-    <div class="booking-row">
-      <div class="booking-name">EZE → MEX → AMS → ARN — Aeroméxico (Jun 30–Jul 2)</div>
-      <button class="status-btn s-confirmed" data-id="3" data-cost="362" data-usd="361.75" data-cat="flight-intl" onclick="toggleStatus(this)">Confirmed ✓</button>
-    </div>
+
     <div class="booking-row">
       <div class="booking-name">Vueling VY 8960 — Paris Orly → London Heathrow (Jul 26)</div>
       <button class="status-btn s-confirmed" data-id="28" data-cost="143" data-usd="142.51" data-cat="flight-eu" onclick="toggleStatus(this)">Confirmed ✓</button>
