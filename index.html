@@ -193,6 +193,7 @@
   <button class="tab-btn" id="tab-btn-leg2" onclick="showTab('leg2')">🌍 Southern Europe</button>
   <button class="tab-btn" id="tab-btn-weather" onclick="showTab('weather')">☁️ Weather</button>
   <button class="tab-btn" id="tab-btn-wc" onclick="showTab('wc')">🏆 World Cup</button>
+  <button class="tab-btn" id="tab-btn-checklist" onclick="showTab('checklist')">✅ Checklist</button>
 </div>
 <div id="tab-leg1">
 
@@ -874,6 +875,14 @@
     <div class="todo-item">
       <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
       <div class="todo-text"><strong>BlaBlaCar voucher SGHQZA:</strong> €24.49 credit — use before Dec 31, 2026 <span class="todo-badge tb-orange">don't waste it</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Buy second eSIM:</strong> Airalo 90-day plan expires Sep 28 — buy new one around that date <span class="todo-badge tb-blue">Sep 28</span></div>
+    </div>
+    <div class="todo-item">
+      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
+      <div class="todo-text"><strong>Cancel Genki:</strong> Cancel before Nov 30 billing — you'll be home ~Nov 19, so cancel right when you land to avoid one extra charge <span class="todo-badge tb-purple">Nov 19</span></div>
     </div>
   </div>
   <div class="todo-col">
@@ -1693,7 +1702,244 @@
 </div>
 </div><!-- /tab-wc -->
 
-<div class="footer">Last updated: Jun 24, 2026</div>
+<div id="tab-checklist" style="display:none">
+<style>
+  .cl-wrap { padding: 16px; max-width: 900px; margin: 0 auto; }
+  .cl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  .cl-title { font-size: 17px; font-weight: 800; color: #1a1a1a; }
+  .cl-progress-text { font-size: 12px; color: #888; }
+  .cl-progress-bar { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+  .cl-progress-fill { height: 100%; background: #22c55e; border-radius: 3px; transition: width 0.3s; }
+  .cl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .cl-cat { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+  .cl-cat-head { padding: 10px 14px; font-size: 12px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+  .cl-cat-count { font-size: 11px; font-weight: 600; opacity: 0.7; }
+  .cl-item { display: flex; align-items: center; gap: 9px; padding: 7px 14px; border-top: 1px solid #f3f4f6; }
+  .cl-item:hover { background: #fafafa; }
+  .cl-cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #d1d5db; background: #fff; cursor: pointer; flex-shrink: 0; appearance: none; -webkit-appearance: none; transition: all 0.15s; }
+  .cl-cb:checked { background: #22c55e; border-color: #22c55e; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 5l2.5 2.5 4.5-4.5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .cl-label { font-size: 13px; color: #374151; line-height: 1.35; transition: all 0.15s; }
+  .cl-label.done { text-decoration: line-through; color: #9ca3af; }
+  .cl-sub { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 14px 2px; background: #f9fafb; border-top: 1px solid #f3f4f6; }
+  .cl-reset { font-size: 11px; padding: 5px 12px; border-radius: 8px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b; cursor: pointer; }
+  .cl-reset:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+  @media (max-width: 640px) { .cl-grid { grid-template-columns: 1fr; } }
+</style>
+<div class="cl-wrap">
+  <div class="cl-header">
+    <div>
+      <div class="cl-title">✅ Checklist de viaje</div>
+      <div class="cl-progress-text" id="cl-prog-text">0 / 0 items</div>
+    </div>
+    <button class="cl-reset" onclick="resetChecklist()">Resetear todo</button>
+  </div>
+  <div class="cl-progress-bar"><div class="cl-progress-fill" id="cl-prog-fill" style="width:0%"></div></div>
+  <div class="cl-grid" id="cl-grid">
+
+    <!-- Documentos -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#eff6ff;color:#1d4ed8;">🛂 Documentos y dinero <span class="cl-cat-count" id="cl-count-docs"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Pasaporte</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Billetera</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Tarjetas de débito/crédito</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Efectivo (euros u otra moneda)</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Copia digital del pasaporte</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Copia impresa del pasaporte</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Copia del seguro de viaje</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Copia de las reservas</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Avisar al banco del viaje</span></div>
+    </div>
+
+    <!-- Tecnología -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#f0fdf4;color:#15803d;">📱 Tecnología <span class="cl-cat-count" id="cl-count-tech"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Celular</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">iPad</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Computadora</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cargadores</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Adaptador universal de enchufe</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Auriculares</span></div>
+    </div>
+
+    <!-- Medicamentos -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#fff7ed;color:#c2410c;">💊 Medicamentos y botiquín <span class="cl-cat-count" id="cl-count-med"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">4 cajas de medicamentos</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Paracetamol</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Curitas</span></div>
+    </div>
+
+    <!-- Vuelo -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#f5f3ff;color:#6d28d9;">✈️ Para el vuelo <span class="cl-cat-count" id="cl-count-flight"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Tapones para los oídos</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Antifaz para dormir</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Almohada inflable</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Abanico portátil</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Snacks</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Botella reutilizable</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Chicles</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Agua (comprarla después del control de seguridad)</span></div>
+    </div>
+
+    <!-- Higiene -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#fdf2f8;color:#9d174d;">🧴 Higiene personal <span class="cl-cat-count" id="cl-count-hig"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cepillo de dientes</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Pasta de dientes</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Champú</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Acondicionador</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Crema para peinar</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Gel para el pelo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Jabón para el cuerpo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Jabón para la cara</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Crema hidratante facial</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Protector solar para la cara</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Manteca de cacao</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Desodorante</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Perfume</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Alcohol en gel</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Rasuradores</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cepillo para el pelo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Bandana para el pelo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Botella con spray para mojar el pelo</span></div>
+    </div>
+
+    <!-- Maquillaje -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#fff1f2;color:#be123c;">💄 Maquillaje y cuidado personal <span class="cl-cat-count" id="cl-count-maq"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Maquillaje</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Pinza de depilar</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Quitaesmalte</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Algodón</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Hisopos</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Esmalte rojo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Esmalte transparente</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Toallitas femeninas</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cortaúñas</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Lima de uñas</span></div>
+    </div>
+
+    <!-- Hostel -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#f0fdfa;color:#0f766e;">🚿 Hostel y organización <span class="cl-cat-count" id="cl-count-hos"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Ojotas para la ducha</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Toalla de microfibra</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">3 candados</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cubos organizadores para la valija</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Bolsas Ziplock</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Bolsas para ropa sucia</span></div>
+    </div>
+
+    <!-- Ropa -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#fefce8;color:#a16207;">👕 Ropa <span class="cl-cat-count" id="cl-count-ropa"></span></div>
+      <div class="cl-sub">Interior</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Bombachas</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Corpiños</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Medias</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Shortitos para usar debajo de polleras</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Pijama</span></div>
+      <div class="cl-sub">Parte superior</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Remeras</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Buzo</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Campera</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Ropa para salir</span></div>
+      <div class="cl-sub">Parte inferior</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Pantalones</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Polleras</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Shorts</span></div>
+      <div class="cl-sub">Calzado</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Zapatillas</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Sandalias de verano</span></div>
+      <div class="cl-sub">Verano</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Bikinis</span></div>
+      <div class="cl-sub">Accesorios de ropa</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Gorro para el sol</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Lentes de sol</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Paraguas</span></div>
+      <div class="cl-sub">Extra</div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Camiseta de Argentina</span></div>
+    </div>
+
+    <!-- Accesorios -->
+    <div class="cl-cat">
+      <div class="cl-cat-head" style="background:#f8fafc;color:#475569;">🎒 Accesorios <span class="cl-cat-count" id="cl-count-acc"></span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Accesorios (joyería u otros)</span></div>
+      <div class="cl-item"><input type="checkbox" class="cl-cb" onchange="clTick(this)"><span class="cl-label">Cubiertos reutilizables</span></div>
+    </div>
+
+  </div>
+</div>
+<script>
+  (function() {
+    var cats = {
+      docs: document.querySelectorAll('.cl-cat')[0],
+      tech: document.querySelectorAll('.cl-cat')[1],
+      med:  document.querySelectorAll('.cl-cat')[2],
+      flight: document.querySelectorAll('.cl-cat')[3],
+      hig:  document.querySelectorAll('.cl-cat')[4],
+      maq:  document.querySelectorAll('.cl-cat')[5],
+      hos:  document.querySelectorAll('.cl-cat')[6],
+      ropa: document.querySelectorAll('.cl-cat')[7],
+      acc:  document.querySelectorAll('.cl-cat')[8]
+    };
+
+    function updateProgress() {
+      var all = document.querySelectorAll('#tab-checklist .cl-cb');
+      var checked = document.querySelectorAll('#tab-checklist .cl-cb:checked');
+      var pct = all.length ? Math.round(checked.length / all.length * 100) : 0;
+      document.getElementById('cl-prog-fill').style.width = pct + '%';
+      document.getElementById('cl-prog-text').textContent = checked.length + ' / ' + all.length + ' items (' + pct + '%)';
+      // per-category counts
+      var ids = ['docs','tech','med','flight','hig','maq','hos','ropa','acc'];
+      ids.forEach(function(id) {
+        var el = document.getElementById('cl-count-' + id);
+        if (!el) return;
+        var cat = document.querySelectorAll('#tab-checklist .cl-cat')[ids.indexOf(id)];
+        if (!cat) return;
+        var total = cat.querySelectorAll('.cl-cb').length;
+        var done = cat.querySelectorAll('.cl-cb:checked').length;
+        el.textContent = done + '/' + total;
+      });
+      // save to localStorage
+      var state = {};
+      all.forEach(function(cb, i) { state[i] = cb.checked; });
+      try { localStorage.setItem('cl-state', JSON.stringify(state)); } catch(e) {}
+    }
+
+    function loadState() {
+      try {
+        var s = JSON.parse(localStorage.getItem('cl-state') || '{}');
+        var all = document.querySelectorAll('#tab-checklist .cl-cb');
+        all.forEach(function(cb, i) {
+          if (s[i]) { cb.checked = true; cb.nextElementSibling.classList.add('done'); }
+        });
+      } catch(e) {}
+      updateProgress();
+    }
+
+    window.clTick = function(cb) {
+      cb.nextElementSibling.classList.toggle('done', cb.checked);
+      updateProgress();
+    };
+
+    window.resetChecklist = function() {
+      if (!confirm('¿Resetear todos los checks?')) return;
+      document.querySelectorAll('#tab-checklist .cl-cb').forEach(function(cb) {
+        cb.checked = false;
+        cb.nextElementSibling.classList.remove('done');
+      });
+      try { localStorage.removeItem('cl-state'); } catch(e) {}
+      updateProgress();
+    };
+
+    loadState();
+  })();
+</script>
+</div><!-- /tab-checklist -->
+
+<div class="footer">Last updated: Jun 25, 2026</div>
 
 <script>
   // Global state
@@ -2088,10 +2334,12 @@
     document.getElementById('tab-leg2').style.display = tab === 'leg2' ? '' : 'none';
     document.getElementById('tab-weather').style.display = tab === 'weather' ? '' : 'none';
     document.getElementById('tab-wc').style.display = tab === 'wc' ? '' : 'none';
+    document.getElementById('tab-checklist').style.display = tab === 'checklist' ? '' : 'none';
     document.getElementById('tab-btn-leg1').classList.toggle('active', tab === 'leg1');
     document.getElementById('tab-btn-leg2').classList.toggle('active', tab === 'leg2');
     document.getElementById('tab-btn-weather').classList.toggle('active', tab === 'weather');
     document.getElementById('tab-btn-wc').classList.toggle('active', tab === 'wc');
+    document.getElementById('tab-btn-checklist').classList.toggle('active', tab === 'checklist');
   }
 </script>
 </body>
