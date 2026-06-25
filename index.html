@@ -113,7 +113,37 @@
 
 
   /* ── Mobile responsive ── */
+  /* ── Global mobile clamp ── */
   @media (max-width: 640px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    * { box-sizing: border-box; }
+
+    /* ── Tab bar: scrolls horizontally, never wraps ── */
+    .tab-nav {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      flex-wrap: nowrap;
+      padding: 0 8px;
+      scrollbar-width: none;
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn { font-size: 11px; padding: 10px 10px; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── Header ── */
+    .header { padding: 12px 12px 10px; }
+    .header h1 { font-size: 15px; }
+    .header-meta { gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .meta-item { font-size: 11px; }
+
+    /* ── Progress / stats ── */
+    .progress-section { padding: 12px 12px; }
+    .stats-row { gap: 8px; }
+    .stat { min-width: 80px; padding: 8px 10px; }
+    .stat-val { font-size: 16px; }
+
+    /* ── Leg cards ── */
+    .leg { margin: 10px 8px; }
 
     /* ── Calendar: tighten so all 7 cols fit ── */
     #trip-calendar, #trip-calendar-leg2 { padding: 2px 2px 12px !important; }
@@ -125,53 +155,43 @@
     .cal-note { font-size: 6px; }
     .cal-badge, .cal-badge-vac { font-size: 6px; padding: 1px 2px; }
 
-    /* ── Header ── */
-    .header { padding: 12px 12px 10px; }
-    .header h1 { font-size: 15px; }
-    .header-meta { gap: 10px; margin-top: 10px; }
-    .meta-item { font-size: 11px; }
-
-    /* ── Tabs ── */
-    .tab-btn { font-size: 11px; padding: 8px 8px; }
-
     /* ── Stop label / local-xfer ── */
     .stop-label { padding: 7px 12px 3px; }
     .local-xfer { padding: 6px 12px; font-size: 10px; }
 
     /* ── Booking rows: two-line layout ── */
-    .booking-row {
-      flex-wrap: wrap;
-      padding: 8px 12px;
-      gap: 5px;
-      align-items: center;
-    }
-
-    /* Info block fills full first line (beside the dot) */
-    .booking-row > div[style*="flex:1"] {
-      flex: 0 0 calc(100% - 14px) !important;
-      width: calc(100% - 14px) !important;
-      min-width: 0;
-    }
-
-    /* Hide invisible spacers/placeholders on mobile — not needed when stacked */
+    .booking-row { flex-wrap: wrap; padding: 8px 12px; gap: 5px; align-items: center; }
+    .booking-row > div[style*="flex:1"] { flex: 0 0 calc(100% - 14px) !important; width: calc(100% - 14px) !important; min-width: 0; }
     .booking-row > div[style*="width:190px"] { display: none !important; }
     .booking-row > span.urgency[style*="visibility:hidden"] { display: none !important; }
-
-    /* Pill button: shrink to natural width on mobile */
-    .booking-row > button[title="Copy reference"] {
-      width: auto !important;
-      font-size: 10px;
-      flex-shrink: 1;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 180px;
-    }
-
-    /* Cost, urgency badges, status button */
+    .booking-row > button[title="Copy reference"] { width: auto !important; font-size: 10px; flex-shrink: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
     .booking-cost { width: auto !important; flex-shrink: 0; }
     .status-btn { min-width: 0 !important; font-size: 10px; padding: 3px 7px; }
     .urgency { min-width: 0 !important; font-size: 9px; }
+
+    /* ── Todo panels ── */
+    .todo-cols { flex-direction: column; }
+    .todo-col { min-width: 0; }
+
+    /* ── Spend tab ── */
+    .sp-wrap { padding: 10px 8px; }
+    .sp-fields { grid-template-columns: 1fr 1fr; }
+    .sp-tables { grid-template-columns: 1fr; }
+    .sp-stats { gap: 8px; }
+    .sp-stat { min-width: 80px; padding: 10px 10px; }
+    .sp-stat-val { font-size: 18px; }
+
+    /* ── Docs tab ── */
+    .docs-wrap { padding: 10px 8px; }
+    .docs-grid { grid-template-columns: 1fr 1fr; }
+
+    /* ── Checklist tab ── */
+    .cl-wrap { padding: 10px 8px; }
+    .cl-grid { grid-template-columns: 1fr; }
+
+    /* ── Weather tab ── */
+    .wx-wrap { padding: 10px 8px !important; }
+
   }
 </style>
 </head>
@@ -195,7 +215,6 @@
   <button class="tab-btn" id="tab-btn-checklist" onclick="showTab('checklist')">✅ Checklist</button>
   <button class="tab-btn" id="tab-btn-spend" onclick="showTab('spend')">💸 Spending</button>
   <button class="tab-btn" id="tab-btn-weather" onclick="showTab('weather')">☁️ Weather</button>
-  <button class="tab-btn" id="tab-btn-wc" onclick="showTab('wc')">🏆 World Cup</button>
 </div>
 <div id="tab-leg1">
 
@@ -1557,152 +1576,7 @@
 </div>
 </div><!-- /tab-weather -->
 
-<div id="tab-wc" style="display:none">
-<style>
-  .wc2-wrap { padding: 16px 16px 20px; }
-  .wc2-title { font-size: 17px; font-weight: 800; color: #1a1a1a; margin-bottom: 2px; }
-  .wc2-sub { font-size: 11px; color: #9ca3af; margin-bottom: 14px; }
-  .wc2-confirmed { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
-  .wc2-confirmed-label { font-size: 10px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .wc2-confirmed-match { font-size: 20px; font-weight: 800; color: #1a1a1a; }
-  .wc2-confirmed-sub { font-size: 12px; color: #4b5563; margin-top: 3px; }
-  .wc2-section { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
-  .wc2-section-head { padding: 10px 14px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
-  .wc2-section-name { font-size: 12px; font-weight: 700; color: #111; }
-  .wc2-section-note { font-size: 10px; color: #9ca3af; }
-  .wc2-badge { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 700; background: #f3f4f6; color: #6b7280; }
-  .wc2-row { display: grid; grid-template-columns: 110px 1fr auto; align-items: center; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; gap: 10px; }
-  .wc2-row:last-child { border-bottom: none; }
-  .wc2-row.travel { background: #fffbeb; }
-  .wc2-date { font-size: 12px; font-weight: 700; color: #374151; }
-  .wc2-date-day { font-size: 10px; color: #9ca3af; margin-top: 1px; }
-  .wc2-times { font-size: 13px; font-weight: 700; color: #1a1a1a; }
-  .wc2-or { font-size: 10px; color: #9ca3af; font-weight: 400; margin: 0 4px; }
-  .wc2-late { color: #dc2626; }
-  .wc2-city { font-size: 12px; color: #6b7280; text-align: right; white-space: nowrap; }
-  .wc2-travel-tag { font-size: 9px; background: #fef3c7; color: #92400e; padding: 1px 5px; border-radius: 5px; font-weight: 700; display: inline-block; margin-top: 2px; }
-  .wc2-final-row { background: #fff7ed; }
-</style>
 
-<div class="wc2-wrap">
-  <div class="wc2-title">🇦🇷 Argentina · World Cup 2026</div>
-  <div class="wc2-sub">All times in your local time (CEST). Argentina plays ONE match per round.</div>
-
-  <div class="wc2-confirmed">
-    <div class="wc2-confirmed-label">✓ Confirmed match</div>
-    <div class="wc2-confirmed-match">Fri Jul 4 · midnight (00:00)</div>
-    <div class="wc2-confirmed-sub">Round of 32 · 🇸🇪 Stockholm · Find a bar open late!</div>
-  </div>
-
-  <!-- ROUND OF 16 -->
-  <div class="wc2-section">
-    <div class="wc2-section-head">
-      <div>
-        <div class="wc2-section-name">Round of 16</div>
-        <div class="wc2-section-note">Argentina plays on ONE of these days — unknown until group stage ends</div>
-      </div>
-      <span class="wc2-badge">🔒 If qualified</span>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Sat Jul 4</div><div class="wc2-date-day">Stockholm 🇸🇪</div></div>
-      <div class="wc2-times">7:00pm <span class="wc2-or">or</span> 11:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-    <div class="wc2-row travel">
-      <div><div class="wc2-date">Sun Jul 5</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
-      <div class="wc2-times">10:00pm <span class="wc2-or">or</span> <span class="wc2-late">2:00am</span></div>
-      <div class="wc2-city"><span class="wc2-travel-tag">⚡ travel day</span></div>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Mon Jul 6</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
-      <div class="wc2-times">9:00pm <span class="wc2-or">or</span> <span class="wc2-late">2:00am</span></div>
-      <div class="wc2-city"></div>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Tue Jul 7</div><div class="wc2-date-day">Oslo 🇳🇴</div></div>
-      <div class="wc2-times">6:00pm <span class="wc2-or">or</span> 10:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-  </div>
-
-  <!-- QUARTERFINALS -->
-  <div class="wc2-section">
-    <div class="wc2-section-head">
-      <div>
-        <div class="wc2-section-name">Quarterfinals</div>
-        <div class="wc2-section-note">Argentina plays on ONE of these days</div>
-      </div>
-      <span class="wc2-badge">🔒 If qualified</span>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Wed Jul 9</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
-      <div class="wc2-times">10:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Thu Jul 10</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
-      <div class="wc2-times">9:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Fri Jul 11</div><div class="wc2-date-day">Copenhagen 🇩🇰</div></div>
-      <div class="wc2-times">11:00pm <span class="wc2-or">or</span> <span class="wc2-late">3:00am</span></div>
-      <div class="wc2-city"></div>
-    </div>
-  </div>
-
-  <!-- SEMIFINALS -->
-  <div class="wc2-section">
-    <div class="wc2-section-head">
-      <div>
-        <div class="wc2-section-name">Semifinals</div>
-        <div class="wc2-section-note">Argentina plays on ONE of these days</div>
-      </div>
-      <span class="wc2-badge">🔒 If qualified</span>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Mon Jul 14</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
-      <div class="wc2-times">9:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Tue Jul 15</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
-      <div class="wc2-times">9:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-  </div>
-
-  <!-- 3RD PLACE -->
-  <div class="wc2-section">
-    <div class="wc2-section-head">
-      <div><div class="wc2-section-name">3rd Place</div></div>
-      <span class="wc2-badge">🔒 If qualified</span>
-    </div>
-    <div class="wc2-row">
-      <div><div class="wc2-date">Fri Jul 18</div><div class="wc2-date-day">Amsterdam 🇳🇱</div></div>
-      <div class="wc2-times">11:00pm</div>
-      <div class="wc2-city"></div>
-    </div>
-  </div>
-
-  <!-- FINAL -->
-  <div class="wc2-section">
-    <div class="wc2-section-head" style="background:#fff7ed;border-color:#fcd34d;">
-      <div>
-        <div class="wc2-section-name" style="color:#92400e;">⭐ Final</div>
-        <div class="wc2-section-note" style="color:#b45309;">Eurostar arrives Paris at 16:35 — settled well before kickoff 🇦🇷</div>
-      </div>
-      <span class="wc2-badge">🔒 If qualified</span>
-    </div>
-    <div class="wc2-row wc2-final-row">
-      <div><div class="wc2-date">Sat Jul 19</div><div class="wc2-date-day">Paris 🇫🇷</div></div>
-      <div class="wc2-times">9:00pm</div>
-      <div class="wc2-city" style="font-size:11px;color:#92400e;">arr 16:35 ✓</div>
-    </div>
-  </div>
-
-</div>
-</div><!-- /tab-wc -->
 
 <div id="tab-checklist" style="display:none">
 <style>
@@ -2741,14 +2615,12 @@
     document.getElementById('tab-leg1').style.display = tab === 'leg1' ? '' : 'none';
     document.getElementById('tab-leg2').style.display = tab === 'leg2' ? '' : 'none';
     document.getElementById('tab-weather').style.display = tab === 'weather' ? '' : 'none';
-    document.getElementById('tab-wc').style.display = tab === 'wc' ? '' : 'none';
     document.getElementById('tab-checklist').style.display = tab === 'checklist' ? '' : 'none';
     document.getElementById('tab-docs').style.display = tab === 'docs' ? '' : 'none';
     document.getElementById('tab-spend').style.display = tab === 'spend' ? '' : 'none';
     document.getElementById('tab-btn-leg1').classList.toggle('active', tab === 'leg1');
     document.getElementById('tab-btn-leg2').classList.toggle('active', tab === 'leg2');
     document.getElementById('tab-btn-weather').classList.toggle('active', tab === 'weather');
-    document.getElementById('tab-btn-wc').classList.toggle('active', tab === 'wc');
     document.getElementById('tab-btn-checklist').classList.toggle('active', tab === 'checklist');
     document.getElementById('tab-btn-docs').classList.toggle('active', tab === 'docs');
     document.getElementById('tab-btn-spend').classList.toggle('active', tab === 'spend');
