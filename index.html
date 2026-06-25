@@ -2018,15 +2018,6 @@
 
   </div>
 
-  <div id="doc-viewer-wrap">
-    <div class="doc-pdf-viewer">
-      <div class="doc-pdf-toolbar">
-        <div class="doc-pdf-title" id="doc-viewer-title"></div>
-        <button class="doc-close" onclick="closeDocViewer()">✕ Close</button>
-      </div>
-      <iframe id="doc-viewer-frame" title="Document viewer"></iframe>
-    </div>
-  </div>
 </div>
 <script>
 (function(){
@@ -2047,21 +2038,15 @@
     return urls[key];
   }
   window.viewDoc = function(key, title) {
-    document.getElementById('doc-viewer-title').textContent = title;
-    document.getElementById('doc-viewer-frame').src = getUrl(key);
-    var w = document.getElementById('doc-viewer-wrap');
-    w.style.display = '';
-    w.scrollIntoView({behavior:'smooth', block:'start'});
+    var url = getUrl(key);
+    var w = window.open(url, '_blank');
+    if (!w) { alert('Allow pop-ups for this page to view documents.'); }
   };
   window.downloadDoc = function(key, filename) {
     var a = document.createElement('a');
     a.href = getUrl(key);
     a.download = filename;
     a.click();
-  };
-  window.closeDocViewer = function() {
-    document.getElementById('doc-viewer-wrap').style.display = 'none';
-    document.getElementById('doc-viewer-frame').src = '';
   };
 })();
 </script>
