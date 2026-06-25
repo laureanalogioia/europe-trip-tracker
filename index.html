@@ -139,8 +139,10 @@
     /* ── Progress / stats ── */
     .progress-section { padding: 12px 12px; }
     .stats-row { gap: 8px; }
-    .stat { min-width: 80px; padding: 8px 10px; }
-    .stat-val { font-size: 16px; }
+    .stats-row { flex-wrap: wrap; }
+    .stat { min-width: 0; flex: 1 1 calc(50% - 8px); max-width: calc(50% - 8px); padding: 8px 10px; overflow: hidden; }
+    .stat-val { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stat-label { font-size: 10px; }
 
     /* ── Leg cards ── */
     .leg { margin: 10px 8px; }
@@ -178,8 +180,10 @@
     .sp-fields { grid-template-columns: 1fr 1fr; }
     .sp-tables { grid-template-columns: 1fr; }
     .sp-stats { gap: 8px; }
-    .sp-stat { min-width: 80px; padding: 10px 10px; }
-    .sp-stat-val { font-size: 18px; }
+    .sp-stats { flex-wrap: wrap; }
+    .sp-stat { min-width: 0; flex: 1 1 calc(50% - 8px); max-width: calc(50% - 8px); padding: 8px 10px; overflow: hidden; }
+    .sp-stat-val { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sp-stat-label { font-size: 10px; }
 
     /* ── Docs tab ── */
     .docs-wrap { padding: 10px 8px; }
