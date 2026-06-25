@@ -215,7 +215,7 @@
     <div class="spend-cat" data-catkey="transport" onclick="toggleCatPanel('transport')"><span class="spend-cat-label">🚂 Trains &amp; buses</span>&ensp;<span class="spend-cat-val" id="cat-transport">US$0</span> <span class="spend-cat-arrow">▾</span></div>
     <div class="spend-cat" data-catkey="accommodation" onclick="toggleCatPanel('accommodation')"><span class="spend-cat-label">🏨 Accommodation</span>&ensp;<span class="spend-cat-val" id="cat-accommodation">US$0</span> <span class="spend-cat-arrow">▾</span></div>
     <div class="spend-cat" data-catkey="activity" onclick="toggleCatPanel('activity')"><span class="spend-cat-label">🎭 Activities</span>&ensp;<span class="spend-cat-val" id="cat-activity">US$0</span> <span class="spend-cat-arrow">▾</span></div>
-    <div class="spend-cat" data-catkey="connectivity" onclick="toggleCatPanel('connectivity')"><span class="spend-cat-label">📱 Connectivity</span>&ensp;<span class="spend-cat-val" id="cat-connectivity">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey="connectivity" onclick="toggleCatPanel('connectivity')"><span class="spend-cat-label">📦 Misc</span>&ensp;<span class="spend-cat-val" id="cat-connectivity">US$0</span> <span class="spend-cat-arrow">▾</span></div>
   </div>
   <!-- Category detail panel -->
   <div id="cat-detail-panel" style="display:none;margin:0 16px 6px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
@@ -250,14 +250,7 @@
 
   <div class="todo-col">
     <div class="todo-col-head">🛡️ Buy &amp; sort</div>
-    <div class="todo-item">
-      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
-      <div class="todo-text"><strong>Insurance Leg 2:</strong> Current policy (T034307709) expires Aug 28. Need cover Sep 1–Nov 19 <span class="todo-badge tb-orange">gap: 83 days</span></div>
-    </div>
-    <div class="todo-item">
-      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
-      <div class="todo-text"><strong>eSIM:</strong> Get a Europe data eSIM before departure (Jul 2) <span class="todo-badge tb-blue">pre-trip</span></div>
-    </div>
+
     <div class="todo-item">
       <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
       <div class="todo-text"><strong>BlaBlaCar voucher SGHQZA:</strong> €24.49 credit — use before Dec 31, 2026 <span class="todo-badge tb-orange">don't waste it</span></div>
@@ -548,6 +541,24 @@
       <button class="status-btn s-confirmed" data-id="3" data-cost="362" data-usd="361.75" data-cat="flight-intl" onclick="toggleStatus(this)">Confirmed ✓</button>
     </div>
   </div>
+
+    <div class="booking-row">
+      <div class="cat-dot cat-connectivity"></div>
+      <div style="flex:1"><div class="booking-name">Genki Travel Health Insurance — Monthly subscription</div><div class="booking-detail">Jun 30 – Nov 2026 · €52.50/month · Coverage: worldwide travel health insurance · renews automatically each month</div><div class="conf-detail">✓ Receipt #2057-9109 · Invoice GT-540276 · First payment €52.50 (~US$57) paid Jun 25 · ~5 months total ~€262 (~US$285)</div></div>
+      <button onclick="event.stopPropagation();navigator.clipboard.writeText('Genki #GT-540276').then(()=>{var t=this;t.style.background='#dcfce7';t.style.borderColor='#86efac';t.style.color='#16a34a';setTimeout(()=>{t.style.background='';t.style.borderColor='';t.style.color='';},1000)})" title="Copy reference" style="font-size:10px;padding:3px 8px;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0;cursor:pointer;color:#475569;white-space:nowrap;flex-shrink:0;transition:all 0.2s;width:190px;overflow:hidden;text-overflow:ellipsis;">Genki #GT-540276</button>
+      <div class="booking-cost">~US$285<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">~$57/month</div></div>
+      <span class="urgency" style="visibility:hidden;pointer-events:none;min-width:70px;">·</span>
+      <button class="status-btn s-confirmed" data-id="99" data-cost="285" data-usd="285" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+    <div class="booking-row">
+      <div class="cat-dot cat-connectivity"></div>
+      <div style="flex:1"><div class="booking-name">Airalo Europa eSIM — 50 GB · 90 days</div><div class="booking-detail">Active from Jun 30 · covers all of Europe · 90 days · install before departure</div><div class="conf-detail">✓ Airalo order 20260625-90320198 · Paid US$90 (10% discount) · Jun 25, 2026</div></div>
+      <button onclick="event.stopPropagation();navigator.clipboard.writeText('Airalo #20260625-90320198').then(()=>{var t=this;t.style.background='#dcfce7';t.style.borderColor='#86efac';t.style.color='#16a34a';setTimeout(()=>{t.style.background='';t.style.borderColor='';t.style.color='';},1000)})" title="Copy reference" style="font-size:10px;padding:3px 8px;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0;cursor:pointer;color:#475569;white-space:nowrap;flex-shrink:0;transition:all 0.2s;width:190px;overflow:hidden;text-overflow:ellipsis;">Airalo #20260625-90320198</button>
+      <div class="booking-cost">US$90</div>
+      <span class="urgency" style="visibility:hidden;pointer-events:none;min-width:70px;">·</span>
+      <button class="status-btn s-confirmed" data-id="98" data-cost="90" data-usd="90" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
+    </div>
+
 
   <div class="stop-group">
     <div class="stop-label">🇸🇪 Stockholm — Jul 2–5 (3 nights)</div>
@@ -843,7 +854,7 @@
     <div class="spend-cat" data-catkey2="transport" onclick="toggleCatPanel2('transport')"><span class="spend-cat-label">🚂 Trains &amp; buses</span>&ensp;<span class="spend-cat-val" id="cat-transport-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
     <div class="spend-cat" data-catkey2="accommodation" onclick="toggleCatPanel2('accommodation')"><span class="spend-cat-label">🏨 Accommodation</span>&ensp;<span class="spend-cat-val" id="cat-accommodation-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
     <div class="spend-cat" data-catkey2="activity" onclick="toggleCatPanel2('activity')"><span class="spend-cat-label">🎭 Activities</span>&ensp;<span class="spend-cat-val" id="cat-activity-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
-    <div class="spend-cat" data-catkey2="connectivity" onclick="toggleCatPanel2('connectivity')"><span class="spend-cat-label">📱 Connectivity</span>&ensp;<span class="spend-cat-val" id="cat-connectivity-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
+    <div class="spend-cat" data-catkey2="connectivity" onclick="toggleCatPanel2('connectivity')"><span class="spend-cat-label">📦 Misc</span>&ensp;<span class="spend-cat-val" id="cat-connectivity-2">US$0</span> <span class="spend-cat-arrow">▾</span></div>
   </div>
   <div id="cat-detail-panel-2" style="display:none;margin:0 16px 6px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:12px;"></div>
   <div style="padding:2px 16px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">By city</div>
@@ -859,10 +870,6 @@
     <div class="todo-item">
       <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
       <div class="todo-text"><strong>2 weeks off work:</strong> Request Aug 31 – Sep 13 off — not confirmed yet <span class="todo-badge tb-orange">pending</span></div>
-    </div>
-    <div class="todo-item">
-      <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
-      <div class="todo-text"><strong>Insurance Leg 2:</strong> Policy T034307709 expires Aug 28. Need cover Sep 1 – Nov 19 <span class="todo-badge tb-orange">83 days</span></div>
     </div>
     <div class="todo-item">
       <input type="checkbox" class="todo-cb" onchange="this.nextElementSibling.classList.toggle('done',this.checked)">
@@ -1773,7 +1780,7 @@
     document.querySelectorAll('.spend-cat').forEach(c => c.classList.remove('active'));
   }
 
-  const catLabels = { 'flight-intl': '✈ International flight', 'flight-eu': '✈ EU flights', transport: '🚂 Trains & buses', accommodation: '🏨 Accommodation', activity: '🎭 Activities', connectivity: '📱 Connectivity' };
+  const catLabels = { 'flight-intl': '✈ International flight', 'flight-eu': '✈ EU flights', transport: '🚂 Trains & buses', accommodation: '🏨 Accommodation', activity: '🎭 Activities', connectivity: '📦 Misc' };
 
   function _renderCatPanel(catKey) {
     const panel = document.getElementById('cat-detail-panel');
