@@ -197,6 +197,20 @@
 </head>
 <body>
 
+<!-- Password gate -->
+<div id="pw-gate" style="display:none;position:fixed;inset:0;background:#1a1a1a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+  <div style="font-size:28px">✈️</div>
+  <div style="color:#fff;font-size:18px;font-weight:700;letter-spacing:-0.3px">Europe Trip 2026</div>
+  <div style="color:#999;font-size:13px;margin-top:-8px">Enter password to continue</div>
+  <div style="display:flex;flex-direction:column;gap:8px;width:260px;">
+    <input id="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')pwCheck()"
+      style="font-size:15px;padding:11px 14px;border-radius:10px;border:1px solid #333;background:#2a2a2a;color:#fff;outline:none;width:100%;text-align:center;" autofocus />
+    <button onclick="pwCheck()" style="font-size:14px;font-weight:700;padding:11px;border-radius:10px;background:#22c55e;border:none;color:#fff;cursor:pointer;width:100%;">Unlock</button>
+    <div id="pw-err" style="color:#f87171;font-size:12px;text-align:center;display:none;">Wrong password — try again</div>
+  </div>
+</div>
+<div id="pw-content" style="display:none">
+
 <div class="header">
   <h1>✈ Europe Trip 2026 — Booking Tracker</h1>
   <div class="subtitle" id="header-subtitle">Sweden · Norway · Denmark · Germany · Netherlands · France · UK · Ireland</div>
@@ -2626,6 +2640,29 @@
     document.getElementById('tab-btn-spend').classList.toggle('active', tab === 'spend');
     if (tab === 'spend') { try { spRender(); } catch(e) {} }
   }
+</script>
+</div><!-- /pw-content -->
+<script>
+  (function() {
+    var PW = 'simbateamo';
+    var gate = document.getElementById('pw-gate');
+    var content = document.getElementById('pw-content');
+    function unlock() { gate.style.display = 'none'; content.style.display = ''; }
+    // Already unlocked this session?
+    try { if (localStorage.getItem('pw-ok') === '1') { unlock(); return; } } catch(e) {}
+    gate.style.display = 'flex';
+    window.pwCheck = function() {
+      var val = document.getElementById('pw-input').value;
+      if (val === PW) {
+        try { localStorage.setItem('pw-ok', '1'); } catch(e) {}
+        unlock();
+      } else {
+        document.getElementById('pw-err').style.display = '';
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-input').focus();
+      }
+    };
+  })();
 </script>
 </body>
 </html>
