@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where is Laureana? 🌍</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f0eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  }
+  .title {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+  .flag {
+    font-size: 80px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .city {
+    font-size: 38px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .country {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .divider {
+    width: 40px;
+    height: 3px;
+    background: #f0a500;
+    border-radius: 2px;
+    margin: 0 auto 24px;
+  }
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 14px;
+  }
+  .info-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .info-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #bbb;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .info-text {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+  .travel-box {
+    background: #fff8e6;
+    border: 1.5px solid #f0a500;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    text-align: left;
+  }
+  .travel-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #f0a500;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .travel-text {
+    font-size: 16px;
+    color: #5a3e00;
+    font-weight: 600;
+  }
+  .date-footer {
+    margin-top: 32px;
+    font-size: 13px;
+    color: #ccc;
+  }
+  .not-started, .trip-over {
+    font-size: 22px;
+    font-weight: 700;
+    color: #555;
+    margin: 20px 0 10px;
+  }
+  .sub {
+    font-size: 14px;
+    color: #aaa;
+  }
+  .heart {
+    margin-top: 32px;
+    font-size: 13px;
+    color: #ddd;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="title">🌍 Where is Laureana?</div>
+  <div id="content"></div>
+  <div class="date-footer" id="dateFooter"></div>
+  <div class="heart">Made with ❤️</div>
+</div>
+
+<script>
+// Full itinerary — city, country, flag, hostel/place, travel info
+var itinerary = {
+  '2026-06-30': { city: 'In the air ✈️', country: 'Buenos Aires → Mexico City', flag: '✈️', hostel: 'Flight: EZE → MEX (AM29)', travel: true },
+  '2026-07-01': { city: 'In the air ✈️', country: 'Mexico City → Amsterdam', flag: '✈️', hostel: 'Flight: MEX → AMS (AM25)', travel: true },
+  '2026-07-02': { city: 'Stockholm', country: 'Sweden', flag: '🇸🇪', hostel: 'Generator Stockholm · Torsgatan 10', travel: true, transport: 'Arriving from Amsterdam ✈️ at 21:00' },
+  '2026-07-03': { city: 'Stockholm', country: 'Sweden', flag: '🇸🇪', hostel: 'Generator Stockholm · Torsgatan 10' },
+  '2026-07-04': { city: 'Stockholm', country: 'Sweden', flag: '🇸🇪', hostel: 'Generator Stockholm · Torsgatan 10' },
+  '2026-07-05': { city: 'Oslo', country: 'Norway', flag: '🇳🇴', hostel: 'Bunks at Røde · Københavngata 10', travel: true, transport: 'Train Stockholm → Oslo 🚂 dep. 15:23' },
+  '2026-07-06': { city: 'Oslo', country: 'Norway', flag: '🇳🇴', hostel: 'Bunks at Røde · Københavngata 10' },
+  '2026-07-07': { city: 'Oslo', country: 'Norway', flag: '🇳🇴', hostel: 'Bunks at Røde · Københavngata 10' },
+  '2026-07-08': { city: 'Copenhagen', country: 'Denmark', flag: '🇩🇰', hostel: 'Generator Copenhagen · Adelgade 5–7', travel: true, transport: 'Bus Oslo → Copenhagen 🚌 dep. 11:00' },
+  '2026-07-09': { city: 'Copenhagen', country: 'Denmark', flag: '🇩🇰', hostel: 'Generator Copenhagen · Adelgade 5–7' },
+  '2026-07-10': { city: 'Copenhagen', country: 'Denmark', flag: '🇩🇰', hostel: 'Generator Copenhagen · Adelgade 5–7' },
+  '2026-07-11': { city: 'Copenhagen', country: 'Denmark', flag: '🇩🇰', hostel: 'Generator Copenhagen · Adelgade 5–7' },
+  '2026-07-12': { city: 'Hamburg', country: 'Germany', flag: '🇩🇪', hostel: 'a&o Hamburg · Amsinckstrasse 2', travel: true, transport: 'Train Copenhagen → Hamburg 🚂 dep. 10:43' },
+  '2026-07-13': { city: 'Hamburg', country: 'Germany', flag: '🇩🇪', hostel: 'a&o Hamburg · Amsinckstrasse 2' },
+  '2026-07-14': { city: 'Amsterdam', country: 'Netherlands', flag: '🇳🇱', hostel: 'Generator Amsterdam · Mauritskade 57', travel: true, transport: 'Train Hamburg → Amsterdam 🚂 dep. 08:42' },
+  '2026-07-15': { city: 'Amsterdam', country: 'Netherlands', flag: '🇳🇱', hostel: 'Generator Amsterdam · Mauritskade 57' },
+  '2026-07-16': { city: 'Amsterdam', country: 'Netherlands', flag: '🇳🇱', hostel: 'Generator Amsterdam · Mauritskade 57' },
+  '2026-07-17': { city: 'Amsterdam', country: 'Netherlands', flag: '🇳🇱', hostel: 'Generator Amsterdam · Mauritskade 57' },
+  '2026-07-18': { city: 'Amsterdam', country: 'Netherlands', flag: '🇳🇱', hostel: 'Generator Amsterdam · Mauritskade 57' },
+  '2026-07-19': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville', travel: true, transport: 'Eurostar Amsterdam → Paris 🚂 dep. 13:10' },
+  '2026-07-20': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-21': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-22': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-23': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-24': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-25': { city: 'Paris', country: 'France', flag: '🇫🇷', hostel: 'The People Paris Belleville' },
+  '2026-07-26': { city: 'London', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Flying to London ✈️', travel: true, transport: 'Flight Paris → London ✈️ dep. 13:45' },
+  '2026-07-27': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-07-28': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-07-29': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-07-30': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-07-31': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-01': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-02': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-03': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-04': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-05': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-06': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-07': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-08': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-09': { city: 'Dublin', country: 'Ireland', flag: '🇮🇪', hostel: 'Clink i Lár', travel: true, transport: 'Ryanair London → Dublin ✈️ dep. 13:20' },
+  '2026-08-10': { city: 'Dublin', country: 'Ireland', flag: '🇮🇪', hostel: 'Clink i Lár' },
+  '2026-08-11': { city: 'Dublin', country: 'Ireland', flag: '🇮🇪', hostel: 'Clink i Lár' },
+  '2026-08-12': { city: 'Dublin', country: 'Ireland', flag: '🇮🇪', hostel: 'Clink i Lár' },
+  '2026-08-13': { city: 'Dublin', country: 'Ireland', flag: '🇮🇪', hostel: 'Clink i Lár' },
+  '2026-08-14': { city: 'Galway', country: 'Ireland', flag: '🇮🇪', hostel: 'Kinlay Hostel · Eyre Square', travel: true, transport: 'Bus Dublin → Galway 🚌 dep. 10:45' },
+  '2026-08-15': { city: 'Galway', country: 'Ireland', flag: '🇮🇪', hostel: 'Kinlay Hostel · Eyre Square' },
+  '2026-08-16': { city: 'Galway', country: 'Ireland', flag: '🇮🇪', hostel: 'Kinlay Hostel · Eyre Square' },
+  '2026-08-17': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠', travel: true, transport: 'Flight Galway → London ✈️ dep. 10:30' },
+  '2026-08-18': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-19': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-20': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-21': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-22': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-23': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-24': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-25': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-26': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-27': { city: 'Woodbridge', country: 'United Kingdom', flag: '🇬🇧', hostel: 'Staying with family 🏠' },
+  '2026-08-28': { city: 'Geneva', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC', travel: true, transport: 'Flight to Geneva ✈️' },
+  '2026-08-29': { city: 'Geneva', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC' },
+  '2026-08-30': { city: 'Interlaken', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC', travel: true, transport: 'Train Geneva → Interlaken 🚂' },
+  '2026-08-31': { city: 'Interlaken', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC' },
+  '2026-09-01': { city: 'Interlaken', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC' },
+  '2026-09-02': { city: 'Interlaken', country: 'Switzerland', flag: '🇨🇭', hostel: 'Hostel TBC' },
+  '2026-09-03': { city: 'Venice', country: 'Italy', flag: '🇮🇹', hostel: 'Hostel TBC', travel: true, transport: 'Train Interlaken → Venice 🚂' },
+  '2026-09-04': { city: 'Venice', country: 'Italy', flag: '🇮🇹', hostel: 'Hostel TBC' },
+  '2026-09-05': { city: 'Ljubljana', country: 'Slovenia', flag: '🇸🇮', hostel: 'Hostel TBC', travel: true, transport: 'Bus Venice → Ljubljana 🚌' },
+  '2026-09-06': { city: 'Ljubljana', country: 'Slovenia', flag: '🇸🇮', hostel: 'Hostel TBC' },
+  '2026-09-07': { city: 'Ljubljana', country: 'Slovenia', flag: '🇸🇮', hostel: 'Hostel TBC' },
+  '2026-09-08': { city: 'Ljubljana', country: 'Slovenia', flag: '🇸🇮', hostel: 'Hostel TBC' },
+  '2026-09-09': { city: 'Split', country: 'Croatia', flag: '🇭🇷', hostel: 'Hostel TBC', travel: true, transport: 'Bus Ljubljana → Split 🚌' },
+  '2026-09-10': { city: 'Split', country: 'Croatia', flag: '🇭🇷', hostel: 'Hostel TBC' },
+};
+
+var TRIP_START = '2026-06-30';
+var TRIP_END   = '2026-11-19'; // rough end
+
+function toKey(d) {
+  var y = d.getFullYear();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var day = String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+day;
+}
+
+function formatDate(d) {
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+}
+
+var today = new Date();
+var key = toKey(today);
+var data = itinerary[key];
+
+var content = document.getElementById('content');
+document.getElementById('dateFooter').textContent = formatDate(today);
+
+if (key < TRIP_START) {
+  content.innerHTML = '<div class="flag">🏠</div><div class="not-started">Trip hasn\'t started yet!</div><div class="sub">Laureana departs June 30, 2026 🛫</div>';
+} else if (!data && key > '2026-09-10') {
+  content.innerHTML = '<div class="flag">🇦🇷</div><div class="not-started">Laureana is back home!</div><div class="sub">The adventure is over — for now 😊</div>';
+} else if (!data) {
+  content.innerHTML = '<div class="flag">✈️</div><div class="not-started">In transit</div><div class="sub">On the way to the next destination!</div>';
+} else {
+  var html = '';
+  html += '<div class="flag">'+data.flag+'</div>';
+  html += '<div class="city">'+data.city+'</div>';
+  html += '<div class="country">'+data.country+'</div>';
+  html += '<div class="divider"></div>';
+
+  if (data.hostel && data.hostel !== 'Hostel TBC') {
+    html += '<div class="info-row"><div class="info-icon">🏨</div><div><div class="info-label">Sleeping at</div><div class="info-text">'+data.hostel+'</div></div></div>';
+  }
+
+  if (data.travel && data.transport) {
+    html += '<div class="travel-box"><div class="travel-label">🚀 Travel day!</div><div class="travel-text">'+data.transport+'</div></div>';
+  }
+
+  content.innerHTML = html;
+}
+</script>
+</body>
+</html>
