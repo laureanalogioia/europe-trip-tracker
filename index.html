@@ -584,19 +584,19 @@
 
     <div class="booking-row">
       <div class="cat-dot cat-connectivity"></div>
-      <div style="flex:1"><div class="booking-name">Genki Travel Health Insurance — Monthly subscription</div><div class="booking-detail">Jun 30 – Nov 2026 · €52.50/month · Coverage: worldwide travel health insurance · renews automatically each month</div><div class="conf-detail">✓ Receipt #2057-9109 · Invoice GT-540276 · First payment €52.50 (~US$57) paid Jun 25 · ~5 months total ~€262 (~US$285)</div></div>
+      <div style="flex:1"><div class="booking-name">Genki Travel Health Insurance — Monthly subscription</div><div class="booking-detail">Jun 30 – Nov 2026 · €52.50/month · Coverage: worldwide travel health insurance · renews automatically each month · Leg 1 portion: 2 months (Jul–Aug)</div><div class="conf-detail">✓ Receipt #2057-9109 · Invoice GT-540276 · First payment €52.50 (~US$57) paid Jun 25 · Leg 1: 2 months = US$114 · Leg 2: 3 months = US$171</div></div>
       <button onclick="event.stopPropagation();navigator.clipboard.writeText('Genki #GT-540276').then(()=>{var t=this;t.style.background='#dcfce7';t.style.borderColor='#86efac';t.style.color='#16a34a';setTimeout(()=>{t.style.background='';t.style.borderColor='';t.style.color='';},1000)})" title="Copy reference" style="font-size:10px;padding:3px 8px;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0;cursor:pointer;color:#475569;white-space:nowrap;flex-shrink:0;transition:all 0.2s;width:190px;overflow:hidden;text-overflow:ellipsis;">Genki #GT-540276</button>
-      <div class="booking-cost">~US$285<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">~$57/month</div></div>
+      <div class="booking-cost">US$114<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">Leg 1 · 2 months</div></div>
       <span class="urgency" style="visibility:hidden;pointer-events:none;min-width:70px;">·</span>
-      <button class="status-btn s-confirmed" data-id="99" data-cost="285" data-usd="285" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
+      <button class="status-btn s-confirmed" data-id="99" data-cost="114" data-usd="114" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
     </div>
     <div class="booking-row">
       <div class="cat-dot cat-connectivity"></div>
-      <div style="flex:1"><div class="booking-name">Airalo Europa eSIM — 50 GB · 90 days</div><div class="booking-detail">Active from Jun 30 · covers all of Europe · 90 days · install before departure</div><div class="conf-detail">✓ Airalo order 20260625-90320198 · Paid US$90 (10% discount) · Jun 25, 2026</div></div>
+      <div style="flex:1"><div class="booking-name">Airalo Europa eSIM — 50 GB · 90 days</div><div class="booking-detail">Active from Jun 30 · covers all of Europe · 90 days · install before departure · Leg 1 portion: 60 days</div><div class="conf-detail">✓ Airalo order 20260625-90320198 · Paid US$90 total (10% discount) · Jun 25, 2026 · Leg 1: 60 days = US$60 · Leg 2: 30 days = US$30</div></div>
       <button onclick="event.stopPropagation();navigator.clipboard.writeText('Airalo #20260625-90320198').then(()=>{var t=this;t.style.background='#dcfce7';t.style.borderColor='#86efac';t.style.color='#16a34a';setTimeout(()=>{t.style.background='';t.style.borderColor='';t.style.color='';},1000)})" title="Copy reference" style="font-size:10px;padding:3px 8px;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0;cursor:pointer;color:#475569;white-space:nowrap;flex-shrink:0;transition:all 0.2s;width:190px;overflow:hidden;text-overflow:ellipsis;">Airalo #20260625-90320198</button>
-      <div class="booking-cost">US$90</div>
+      <div class="booking-cost">US$60<div style="font-size:10px;color:#9ca3af;font-weight:400;margin-top:1px">Leg 1 · 60 days</div></div>
       <span class="urgency" style="visibility:hidden;pointer-events:none;min-width:70px;">·</span>
-      <button class="status-btn s-confirmed" data-id="98" data-cost="90" data-usd="90" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
+      <button class="status-btn s-confirmed" data-id="98" data-cost="60" data-usd="60" data-cat="connectivity" onclick="toggleStatus(this)">Confirmed ✓</button>
     </div>
 
 
@@ -2128,6 +2128,21 @@
   function saveData(data) {
     try { localStorage.setItem('sp-expenses', JSON.stringify(data)); } catch(e) {}
   }
+
+  // Seed fixed pre-trip costs if not already present
+  (function seedFixed() {
+    var data = loadData();
+    var descs = data.map(function(e){ return e.desc; });
+    var toAdd = [];
+    if (descs.indexOf('Genki insurance · Jul-Aug (Leg 1)') === -1)
+      toAdd.push({id:1000001, date:'2026-06-30', city:'Pre-trip', cat:'📱 Misc', desc:'Genki insurance · Jul-Aug (Leg 1)', amount:114, currency:'USD'});
+    if (descs.indexOf('Airalo eSIM · 60 days (Leg 1)') === -1)
+      toAdd.push({id:1000002, date:'2026-06-30', city:'Pre-trip', cat:'📱 Misc', desc:'Airalo eSIM · 60 days (Leg 1)', amount:60, currency:'USD'});
+    if (descs.indexOf('Airalo eSIM · 30 days (Leg 2)') === -1)
+      toAdd.push({id:1000003, date:'2026-09-28', city:'Pre-trip', cat:'📱 Misc', desc:'Airalo eSIM · 30 days (Leg 2)', amount:30, currency:'USD'});
+    if (toAdd.length) saveData(data.concat(toAdd));
+  })();
+
   function fmt(amount, currency) {
     var sym = {EUR:'€',USD:'$',GBP:'£',NOK:'kr',SEK:'kr',DKK:'kr',CHF:'CHF ',HRK:'kn',BAM:'KM',ALL:'L'};
     return (sym[currency]||currency+' ') + parseFloat(amount).toFixed(2);
